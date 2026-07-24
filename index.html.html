@@ -13,7 +13,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
 
   <style>
-    /* 強制全面使用思源黑體，絕不變成標楷體 */
+    /* 強制全面使用思源黑體 */
     *, *::before, *::after {
       font-family: "Noto Sans TC", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang TC", "Microsoft JhengHei", sans-serif !important;
     }
@@ -173,16 +173,16 @@
         <div>
           <label class="block font-bold text-slate-700 mb-1">尾巴狀態觀察</label>
           <select id="input-tail" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-slate-700 focus:outline-none focus:border-amber-500">
-            <option value="圓潤充實 ">圓潤充實 </option>
-            <option value="正常形狀 ">正常形狀 </option>
-            <option value="略偏細 ">略偏細 </option>
+            <option value="圓潤充實">圓潤充實</option>
+            <option value="正常形狀">正常形狀</option>
+            <option value="略偏細">略偏細</option>
           </select>
         </div>
 
         <!-- 筆記觀察 -->
         <div>
           <label class="block font-bold text-slate-700 mb-1">日常觀察筆記</label>
-          <textarea id="input-notes" rows="3" placeholder="繳交500字心得記錄今天的精神狀態、食慾、有沒有呼吸問題" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-slate-700 focus:outline-none focus:border-amber-500 resize-none"></textarea>
+          <textarea id="input-notes" rows="3" placeholder="記錄今天的精神狀態、食慾、有沒有呼吸問題..." class="w-full border border-slate-200 rounded-xl px-3 py-2 text-slate-700 focus:outline-none focus:border-amber-500 resize-none"></textarea>
         </div>
 
         <div class="pt-2">
@@ -251,12 +251,6 @@
   </footer>
 
   <script>
-    /*
-      👇【照片在程式碼裡放置的位置】👇
-      請把下載下來的照片跟 index.html 放在【同一個資料夾】裡：
-      - 第一張 Teo 的照片檔名改為：S__28885000.jpg
-      - 第二張 Andrina 的照片檔名改為：S__28885001.jpg
-    */
     const SAMPLE_RECORDS = [
       {
         id: 'rec-1',
@@ -264,7 +258,7 @@
         gen: '二代鼠',
         date: '2025/02/13',
         weight: '58',
-        tail: '圓潤充實 ',
+        tail: '圓潤充實',
         notes: 'Teo 二代鼠，以前顏值很高又很愛乾淨，現在有變好一點了。',
         image: './S__28885000.jpg'
       },
@@ -274,7 +268,7 @@
         gen: '一代鼠',
         date: '2024/02/13-2025/09/18',
         weight: '65',
-        tail: '圓潤充實 ',
+        tail: '圓潤充實',
         notes: 'Andrina 始祖鼠，從魚中魚買來的，很愛趴在尿上腹部永遠黃黃的',
         image: './S__28885001.jpg'
       }
@@ -292,8 +286,8 @@
 
     function loadRecords() {
       try {
-        // 升級版本號至 v8，強制讓修改後的 SAMPLE_RECORDS 生效
-        const saved = localStorage.getItem('gerbil_records_v8');
+        // 升級版本號至 v9，確保預設圖片路徑刷入 LocalStorage
+        const saved = localStorage.getItem('gerbil_records_v9');
         if (saved && JSON.parse(saved).length > 0) {
           records = JSON.parse(saved);
         } else {
@@ -310,7 +304,7 @@
 
     function saveToStorage() {
       try {
-        localStorage.setItem('gerbil_records_v8', JSON.stringify(records));
+        localStorage.setItem('gerbil_records_v9', JSON.stringify(records));
       } catch (e) {
         showToast("⚠️ 容量已滿，請刪除部分舊照或備份！", "error");
       }
@@ -338,7 +332,6 @@
             ? 'bg-blue-50 text-blue-700 border border-blue-100' 
             : 'bg-indigo-50 text-indigo-700 border border-indigo-100';
 
-          // 修正：Teo 為二代鼠，Andrina 為一代鼠
           const genLabel = record.gen || (record.subject === 'Teo' ? '二代鼠' : '一代鼠');
 
           card.innerHTML = `
@@ -436,7 +429,6 @@
 
       const subjectRadio = document.querySelector('input[name="subject"]:checked');
       const subject = subjectRadio ? subjectRadio.value : 'Teo';
-      // 修正：儲存新紀錄時的預設標籤
       const gen = subject === 'Teo' ? '二代鼠' : '一代鼠';
       const date = document.getElementById('input-date').value;
       const weight = document.getElementById('input-weight').value;
@@ -473,7 +465,6 @@
       document.getElementById('lb-notes').textContent = record.notes || '沒有寫備註喔～';
 
       const badge = document.getElementById('lb-subject-badge');
-      // 修正：大圖視窗中的標籤顯示
       const genText = record.gen || (record.subject === 'Teo' ? '二代鼠' : '一代鼠');
       if (badge) {
         badge.textContent = `♂ ${record.subject} (${genText})`;
