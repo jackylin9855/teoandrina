@@ -355,7 +355,7 @@
        【後端/資料庫區域】
        ==================================================================== */
 
-    // 1. 預設沙鼠照片紀錄 (修復逗號問題)
+    // 1. 預設沙鼠照片紀錄 (包含完整的 5 張照片)
     const SAMPLE_RECORDS = [
       {
         id: 'rec-1',
@@ -384,6 +384,7 @@
         date: '2025/09/18',
         weight: '65',
         tail: '圓潤充實',
+        notes: '可愛的 Andrina 照片。',
         image: './S__28925994_0.jpg'
       },
       {
@@ -393,6 +394,7 @@
         date: '2025/09/18',
         weight: '65',
         tail: '圓潤充實',
+        notes: 'Andrina 與戴家妤的合照互動紀錄。',
         image: './S__28925999_0.jpg'
       },
       {
@@ -402,6 +404,7 @@
         date: '2025/02/13',
         weight: '58',
         tail: '圓潤充實',
+        notes: 'Teo 的日常側拍。',
         image: './S__28925997_0.jpg'
       }
     ];
@@ -434,6 +437,9 @@
     let currentFilter = 'all';
     let currentSelectedImageBase64 = null;
 
+    // 定義全新的 Storage KEY (改成 v9 能強制刷掉 v8 的舊暫存紀錄)
+    const STORAGE_KEY = 'gerbil_records_v9';
+
     window.addEventListener('DOMContentLoaded', () => {
       loadRecords();
       renderVideos();
@@ -459,10 +465,10 @@
       }
     }
 
-    // 讀取相片紀錄
+    // 讀取相片紀錄 (自動修復暫存)
     function loadRecords() {
       try {
-        const saved = localStorage.getItem('gerbil_records_v8');
+        const saved = localStorage.getItem(STORAGE_KEY);
         if (saved && JSON.parse(saved).length > 0) {
           records = JSON.parse(saved);
         } else {
@@ -479,7 +485,7 @@
 
     function saveToStorage() {
       try {
-        localStorage.setItem('gerbil_records_v8', JSON.stringify(records));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
       } catch (e) {
         showToast("⚠️ 容量已滿，請刪除部分舊照或備份！", "error");
       }
