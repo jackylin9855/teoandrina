@@ -351,7 +351,7 @@
        【後端/資料庫區域】這裡是你未來「舉一反三」新增內容的地方！
        ==================================================================== */
 
-    // 1. 預設沙鼠照片紀錄 (可依樣畫葫蘆，複製 { ... } 新增照片)
+    // 1. 預設沙鼠照片紀錄
     const SAMPLE_RECORDS = [
       {
         id: 'rec-1',
@@ -375,23 +375,22 @@
       }
     ];
 
-    // 2. YouTube 影片資料庫 (在 youtubeId 填入 YouTube 網址 v= 後面的代碼)
+    // 2. YouTube 影片資料庫 (youtubeId 只需要填 v= 後面的 11 位字元代碼)
     const VIDEO_DATABASE = [
       {
         id: 'vid-1',
-        title: '
-【從零開始養】沙鼠(通心粉、長爪沙鼠)!戰鬥時居然會唱歌打鼓?尾巴自帶觸控筆?科養沙鼠籠子超豪華?【許伯簡芝】肥尾沙鼠!',
+        title: '【從零開始養】沙鼠(通心粉、長爪沙鼠)!戰鬥時居然會唱歌打鼓?尾巴自帶觸控筆?【許伯簡芝】肥尾沙鼠!',
         category: '飼養教學',
-        youtubeId: 'https://www.youtube.com/watch?v=KOSCkVTwKZc', // 請替換成真正的 YouTube 影片 ID
-        coverImage: 'https://images.unsplash.com/photo-1548767797-d8c844163c4c?w=600&auto=format&fit=crop&q=80',
+        youtubeId: 'KOSCkVTwKZc', // 正確：只填 v= 後面的 ID
+        coverImage: 'https://img.youtube.com/vi/KOSCkVTwKZc/hqdefault.jpg', // 自動取得 YouTube 預設縮圖
         desc: '介紹肥尾沙鼠的原生棲地環境、基礎飲食以及新手飼養注意事項。'
       },
       {
         id: 'vid-2',
-        title: '危險鼠用品：好心幹壞事？你正在「暗殺」你的倉鼠嗎？盤點那些害鼠不淺的地雷用品！｜愛鼠協會【不踩雷養鼠攻略】',
+        title: '危險鼠用品：好心幹壞事？你正在「暗殺」你的倉鼠嗎？盤點那些害鼠不淺的地雷用品！｜愛鼠協會',
         category: '籠舍佈置',
-        youtubeId: https://www.youtube.com/watch?v=74KH6d_ZIq8', // 請替換成真正的 YouTube 影片 ID
-        coverImage: 'https://images.unsplash.com/photo-1425082661705-1834bfd09dca?w=600&auto=format&fit=crop&q=80',
+        youtubeId: '74KH6d_ZIq8', // 正確：只填 v= 後面的 ID
+        coverImage: 'https://img.youtube.com/vi/74KH6d_ZIq8/hqdefault.jpg', // 自動取得 YouTube 預設縮圖
         desc: '示範如何設定 20cm 以上的深度墊材，打造符合沙鼠天然挖掘習性的家。'
       }
     ];
@@ -404,7 +403,7 @@
         tag: '德系動保法規',
         date: '2024 更新版',
         summary: '德國法律規定所有脊椎動物飼養者必須提供符合其生物學習性的環境。對於沙鼠類，規定最小飼養面積與禁止使用過小的滾輪。',
-        pdfUrl: '#', // 填入你的 PDF 檔案路徑，例如：'./docs/german_law_gerbil.pdf'
+        pdfUrl: '#',
         highlights: ['居住面積不得小於 0.5 平方公尺', '滾輪直徑必須 >= 28cm', '強制要求提供砂浴設施']
       },
       {
@@ -413,11 +412,10 @@
         tag: '獸醫協會指南',
         date: '2023 官方文獻',
         summary: '由德國獸醫醫學協會 (TVT) 頒布的沙鼠照顧指南，詳細介紹肥尾沙鼠與蒙古沙鼠的社會行為、疾病預防與飲食比例。',
-        pdfUrl: '#', // 填入 PDF 檔案路徑
+        pdfUrl: '#',
         highlights: ['動物性蛋白需求比例', '預防尾巴油脂腺炎方法', '墊材材質與呼吸道健康']
       }
     ];
-
 
     /* ====================================================================
        頁面邏輯與動態渲染
@@ -555,7 +553,7 @@
               </span>
             </div>
             <div class="p-4 space-y-2">
-              <h3 class="font-bold text-slate-800 text-sm sm:text-base leading-snug">${vid.title}</h3>
+              <h3 class="font-bold text-slate-800 text-sm sm:text-base leading-snug line-clamp-2">${vid.title}</h3>
               <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed">${vid.desc}</p>
             </div>
           </div>
