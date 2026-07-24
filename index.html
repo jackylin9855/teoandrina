@@ -355,7 +355,7 @@
        【後端/資料庫區域】
        ==================================================================== */
 
-    // 1. 預設沙鼠照片紀錄 (包含完整的 5 張照片)
+    // 1. 預設沙鼠照片紀錄 (包含完整的 8 張照片，已修復英文逗號)
     const SAMPLE_RECORDS = [
       {
         id: 'rec-1',
@@ -407,7 +407,7 @@
         notes: 'Teo 獅子王。',
         image: './S__28925997_0.jpg'
       },
-       {
+      {
         id: 'rec-6',
         subject: 'Teo',
         gen: '二代鼠',
@@ -417,7 +417,7 @@
         notes: '呆萌。',
         image: './S__28925996_0.jpg'
       },
-       {
+      {
         id: 'rec-7',
         subject: 'Andrina',
         gen: '一代鼠',
@@ -427,7 +427,7 @@
         notes: '呆萌獸 dinosaur。',
         image: './S__28926000_0.jpg'
       },
-        {
+      {
         id: 'rec-8',
         subject: 'Andrina',
         gen: '一代鼠',
@@ -437,7 +437,7 @@
         notes: '假死狀態。',
         image: './S__28925995_0.jpg'
       }
-        ];
+    ];
 
     // 2. YouTube 影片資料庫
     const VIDEO_DATABASE = [
@@ -467,8 +467,8 @@
     let currentFilter = 'all';
     let currentSelectedImageBase64 = null;
 
-    // 定義全新的 Storage KEY (改成 v9 能強制刷掉 v8 的舊暫存紀錄)
-    const STORAGE_KEY = 'gerbil_records_v9';
+    // 將 Storage KEY 更新為 v11，自動強制刷掉所有舊暫存！
+    const STORAGE_KEY = 'gerbil_records_v11';
 
     window.addEventListener('DOMContentLoaded', () => {
       loadRecords();
@@ -495,7 +495,7 @@
       }
     }
 
-    // 讀取相片紀錄 (自動修復暫存)
+    // 讀取相片紀錄 (自動載入 8 張照片)
     function loadRecords() {
       try {
         const saved = localStorage.getItem(STORAGE_KEY);
