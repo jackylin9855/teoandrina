@@ -13,6 +13,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
 
   <style>
+    /* 強制全面使用思源黑體，絕不變成標楷體 */
     *, *::before, *::after {
       font-family: "Noto Sans TC", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang TC", "Microsoft JhengHei", sans-serif !important;
     }
@@ -55,7 +56,7 @@
 
         <button onclick="openAddModal()" class="w-full sm:w-auto bg-amber-600 hover:bg-amber-700 active:scale-95 text-white font-bold px-5 py-2.5 rounded-full shadow-md transition flex items-center justify-center gap-2 text-sm">
           <i class="fa-solid fa-plus"></i>
-          <span>新增照片</span>
+          <span>照片</span>
         </button>
       </div>
     </header>
@@ -93,21 +94,15 @@
         </button>
       </div>
 
-      <!-- 讀取狀態提示 -->
-      <div id="loading-state" class="text-center py-12 text-slate-400 text-sm">
-        <i class="fa-solid fa-spinner fa-spin text-2xl mb-2 text-amber-500"></i>
-        <p>雲端資料載入中...</p>
-      </div>
-
       <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-        <!-- JS 會動態渲染 -->
+        <!-- JS 會動態將卡片渲染至此 -->
       </div>
 
       <!-- 空白狀態提示 -->
       <div id="empty-state" class="hidden text-center py-16 bg-white/60 rounded-3xl border border-dashed border-amber-200 p-8 my-8">
         <div class="text-5xl mb-4">🐹🐾</div>
         <h3 class="text-lg font-bold text-amber-900 mb-1">還沒有照片紀錄喔！</h3>
-        <p class="text-xs sm:text-sm text-slate-500 mb-6">點擊右上角按鈕，加入第一張跨裝置同步的生活照吧！</p>
+        <p class="text-xs sm:text-sm text-slate-500 mb-6">點擊右上角按鈕，加入 Teo 與 Andrina 第一張生活照吧！</p>
         <button onclick="openAddModal()" class="inline-flex items-center gap-2 bg-amber-600 text-white font-bold px-6 py-2.5 rounded-full shadow hover:bg-amber-700 transition text-sm">
           <i class="fa-solid fa-plus"></i>
           <span>+ 照片</span>
@@ -117,7 +112,6 @@
     </main>
   </div>
 
-  <!-- 新增 Modal -->
   <div id="modal-add" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
     <div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
       
@@ -129,6 +123,8 @@
       </div>
 
       <form id="record-form" onsubmit="handleSaveRecord(event)" class="p-6 overflow-y-auto space-y-4 text-xs sm:text-sm custom-scrollbar">
+        
+        <!-- 選擇主角 -->
         <div>
           <label class="block font-bold text-slate-700 mb-2">相片主角 <span class="text-red-500">*</span></label>
           <div class="grid grid-cols-2 gap-3">
@@ -145,6 +141,7 @@
           </div>
         </div>
 
+        <!-- 照片上傳區 -->
         <div>
           <label class="block font-bold text-slate-700 mb-2">選擇照片 <span class="text-red-500">*</span></label>
           <div onclick="document.getElementById('file-input').click()" class="border-2 border-dashed border-amber-300 bg-amber-50/30 hover:bg-amber-100/40 rounded-2xl p-4 text-center cursor-pointer transition min-h-[160px] flex flex-col items-center justify-center relative overflow-hidden">
@@ -153,13 +150,14 @@
             <div id="upload-prompt" class="space-y-2">
               <div class="text-3xl text-amber-500"><i class="fa-solid fa-cloud-arrow-up"></i></div>
               <p class="font-medium text-slate-600">點擊此處上傳照片</p>
-              <p class="text-[11px] text-slate-400">照片將自動同步上傳至雲端</p>
+              <p class="text-[11px] text-slate-400">系統將自動壓縮圖片（免擔心卡頓）</p>
             </div>
 
             <img id="preview-img" class="absolute inset-0 w-full h-full object-cover hidden" alt="Preview">
           </div>
         </div>
 
+        <!-- 日期與體重 -->
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block font-bold text-slate-700 mb-1">觀察日期</label>
@@ -171,23 +169,25 @@
           </div>
         </div>
 
+        <!-- 尾巴充實度 -->
         <div>
           <label class="block font-bold text-slate-700 mb-1">尾巴狀態觀察</label>
           <select id="input-tail" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-slate-700 focus:outline-none focus:border-amber-500">
-            <option value="圓潤充實">圓潤充實</option>
-            <option value="正常形狀">正常形狀</option>
-            <option value="略偏細">略偏細</option>
+            <option value="圓潤充實 ">圓潤充實 </option>
+            <option value="正常形狀 ">正常形狀 </option>
+            <option value="略偏細 ">略偏細 </option>
           </select>
         </div>
 
+        <!-- 筆記觀察 -->
         <div>
           <label class="block font-bold text-slate-700 mb-1">日常觀察筆記</label>
-          <textarea id="input-notes" rows="3" placeholder="記錄今天的精神狀態、食慾、有沒有呼吸問題..." class="w-full border border-slate-200 rounded-xl px-3 py-2 text-slate-700 focus:outline-none focus:border-amber-500 resize-none"></textarea>
+          <textarea id="input-notes" rows="3" placeholder="繳交500字心得記錄今天的精神狀態、食慾、有沒有呼吸問題" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-slate-700 focus:outline-none focus:border-amber-500 resize-none"></textarea>
         </div>
 
         <div class="pt-2">
-          <button id="btn-submit" type="submit" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 rounded-2xl shadow-md transition flex items-center justify-center gap-2">
-            <span>儲存並同步至雲端 🐾</span>
+          <button type="submit" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 rounded-2xl shadow-md transition">
+            儲存觀察照片 🐾
           </button>
         </div>
       </form>
@@ -195,7 +195,6 @@
     </div>
   </div>
 
-  <!-- Lightbox Modal -->
   <div id="modal-lightbox" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="closeLightbox()">
     <div class="bg-white w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]" onclick="event.stopPropagation()">
       
@@ -251,132 +250,71 @@
     <p>Teo & Andrina 肥尾沙鼠成長觀察日記 🐾</p>
   </footer>
 
-  <!-- 引入 Firebase SDK (v10) -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-    import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
-
-    /* ⚠️ 請把你的 Firebase Config 貼在這裡 ⚠️ */
-    const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_PROJECT_ID.appspot.com",
-      messagingSenderId: "YOUR_SENDER_ID",
-      appId: "YOUR_APP_ID"
-    };
-
-    // 初始化 Firebase
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const storage = getStorage(app);
+  <script>
+    /*
+      👇【照片在程式碼裡放置的位置】👇
+      請把下載下來的照片跟 index.html 放在【同一個資料夾】裡：
+      - 第一張 Teo 的照片檔名改為：S__28885000.jpg
+      - 第二張 Andrina 的照片檔名改為：S__28885001.jpg
+    */
+    const SAMPLE_RECORDS = [
+      {
+        id: 'rec-1',
+        subject: 'Teo',
+        gen: '二代鼠',
+        date: '2025/02/13',
+        weight: '58',
+        tail: '圓潤充實 ',
+        notes: 'Teo 二代鼠，以前顏值很高又很愛乾淨，現在有變好一點了。',
+        image: './S__28885000.jpg'
+      },
+      {
+        id: 'rec-2',
+        subject: 'Andrina',
+        gen: '一代鼠',
+        date: '2024/02/13-2025/09/18',
+        weight: '65',
+        tail: '圓潤充實 ',
+        notes: 'Andrina 始祖鼠，從魚中魚買來的，很愛趴在尿上腹部永遠黃黃的',
+        image: './S__28885001.jpg'
+      }
+    ];
 
     let records = [];
     let currentFilter = 'all';
-    let selectedFile = null;
+    let currentSelectedImageBase64 = null;
 
-    // 即時監聽雲端資料庫更新 (Realtime Sync)
-    const q = query(collection(db, "gerbil_records"), orderBy("date", "desc"));
-    onSnapshot(q, (snapshot) => {
-      document.getElementById('loading-state').classList.add('hidden');
-      records = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      renderGallery();
-      updateStats();
-    }, (error) => {
-      console.error("Firebase Sync Error:", error);
-      showToast("雲端資料同步失敗，請檢查 Config 設定！", "error");
+    window.addEventListener('DOMContentLoaded', () => {
+      loadRecords();
+      const dateInput = document.getElementById('input-date');
+      if (dateInput) dateInput.valueAsDate = new Date();
     });
 
-    window.handleFileSelect = function(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-      selectedFile = file;
-
-      const reader = new FileReader();
-      reader.onload = function(event) {
-        const previewImg = document.getElementById('preview-img');
-        const uploadPrompt = document.getElementById('upload-prompt');
-        if (previewImg && uploadPrompt) {
-          previewImg.src = event.target.result;
-          previewImg.classList.remove('hidden');
-          uploadPrompt.classList.add('hidden');
-        }
-      };
-      reader.readAsDataURL(file);
-    };
-
-    window.handleSaveRecord = async function(e) {
-      e.preventDefault();
-      if (!selectedFile) {
-        showToast("請先選擇一張照片喔！", "error");
-        return;
-      }
-
-      const submitBtn = document.getElementById('btn-submit');
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> 上傳中...`;
-
+    function loadRecords() {
       try {
-        // 1. 上傳圖片到 Firebase Storage
-        const fileRef = ref(storage, `images/${Date.now()}_${selectedFile.name}`);
-        await uploadBytes(fileRef, selectedFile);
-        const imageUrl = await getDownloadURL(fileRef);
-
-        // 2. 取得表單欄位
-        const subjectRadio = document.querySelector('input[name="subject"]:checked');
-        const subject = subjectRadio ? subjectRadio.value : 'Teo';
-        const gen = subject === 'Teo' ? '二代鼠' : '一代鼠';
-        const date = document.getElementById('input-date').value;
-        const weight = document.getElementById('input-weight').value;
-        const tail = document.getElementById('input-tail').value;
-        const notes = document.getElementById('input-notes').value;
-
-        // 3. 儲存資料筆記至 Firestore
-        await addDoc(collection(db, "gerbil_records"), {
-          subject,
-          gen,
-          date,
-          weight,
-          tail,
-          notes,
-          image: imageUrl,
-          storagePath: fileRef.fullPath,
-          createdAt: new Date().toISOString()
-        });
-
-        closeAddModal();
-        showToast("同步成功！手機/電腦已更新 🐾");
-      } catch (err) {
-        console.error("Upload Error:", err);
-        showToast("上傳失敗，請檢查雲端設定", "error");
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = `<span>儲存並同步至雲端 🐾</span>`;
-      }
-    };
-
-    window.deleteRecord = async function(id) {
-      const record = records.find(r => r.id === id);
-      if (!record) return;
-
-      if (!confirm("確定要刪除這張觀察紀錄嗎？")) return;
-
-      try {
-        // 刪除 Firestore 文章
-        await deleteDoc(doc(db, "gerbil_records", id));
-        // 若有圖檔路徑則同步刪除圖檔
-        if (record.storagePath) {
-          const fileRef = ref(storage, record.storagePath);
-          await deleteObject(fileRef).catch(e => console.log("Storage delete skip:", e));
+        // 升級版本號至 v8，強制讓修改後的 SAMPLE_RECORDS 生效
+        const saved = localStorage.getItem('gerbil_records_v8');
+        if (saved && JSON.parse(saved).length > 0) {
+          records = JSON.parse(saved);
+        } else {
+          records = [...SAMPLE_RECORDS];
+          saveToStorage();
         }
-        closeLightbox();
-        showToast("已從雲端刪除該篇紀錄");
       } catch (err) {
-        console.error("Delete Error:", err);
-        showToast("刪除失敗", "error");
+        console.error("Storage Load Error:", err);
+        records = [...SAMPLE_RECORDS];
       }
-    };
+      renderGallery();
+      updateStats();
+    }
+
+    function saveToStorage() {
+      try {
+        localStorage.setItem('gerbil_records_v8', JSON.stringify(records));
+      } catch (e) {
+        showToast("⚠️ 容量已滿，請刪除部分舊照或備份！", "error");
+      }
+    }
 
     function renderGallery() {
       const grid = document.getElementById('gallery-grid');
@@ -400,6 +338,7 @@
             ? 'bg-blue-50 text-blue-700 border border-blue-100' 
             : 'bg-indigo-50 text-indigo-700 border border-indigo-100';
 
+          // 修正：Teo 為二代鼠，Andrina 為一代鼠
           const genLabel = record.gen || (record.subject === 'Teo' ? '二代鼠' : '一代鼠');
 
           card.innerHTML = `
@@ -435,14 +374,95 @@
 
       if (totalElem) totalElem.textContent = `${records.length} 篇`;
 
-      const teoRecords = records.filter(r => r.subject === 'Teo' && r.weight);
-      const andrinaRecords = records.filter(r => r.subject === 'Andrina' && r.weight);
+      const teoRecords = records.filter(r => r.subject === 'Teo' && r.weight).sort((a,b) => new Date(b.date) - new Date(a.date));
+      const andrinaRecords = records.filter(r => r.subject === 'Andrina' && r.weight).sort((a,b) => new Date(b.date) - new Date(a.date));
 
       if (teoElem) teoElem.textContent = teoRecords.length > 0 ? `最新: ${teoRecords[0].weight} g` : `最新: -- g`;
       if (andrinaElem) andrinaElem.textContent = andrinaRecords.length > 0 ? `最新: ${andrinaRecords[0].weight} g` : `最新: -- g`;
     }
 
-    window.openLightbox = function(id) {
+    function handleFileSelect(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        const img = new Image();
+        img.onload = function() {
+          const canvas = document.createElement('canvas');
+          let width = img.width;
+          let height = img.height;
+          const maxDim = 800;
+
+          if (width > height) {
+            if (width > maxDim) {
+              height = Math.round((height * maxDim) / width);
+              width = maxDim;
+            }
+          } else {
+            if (height > maxDim) {
+              width = Math.round((width * maxDim) / height);
+              height = maxDim;
+            }
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+
+          currentSelectedImageBase64 = canvas.toDataURL('image/jpeg', 0.75);
+
+          const previewImg = document.getElementById('preview-img');
+          const uploadPrompt = document.getElementById('upload-prompt');
+          if (previewImg && uploadPrompt) {
+            previewImg.src = currentSelectedImageBase64;
+            previewImg.classList.remove('hidden');
+            uploadPrompt.classList.add('hidden');
+          }
+        };
+        img.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function handleSaveRecord(e) {
+      e.preventDefault();
+
+      if (!currentSelectedImageBase64) {
+        showToast("請先選擇一張照片喔！", "error");
+        return;
+      }
+
+      const subjectRadio = document.querySelector('input[name="subject"]:checked');
+      const subject = subjectRadio ? subjectRadio.value : 'Teo';
+      // 修正：儲存新紀錄時的預設標籤
+      const gen = subject === 'Teo' ? '二代鼠' : '一代鼠';
+      const date = document.getElementById('input-date').value;
+      const weight = document.getElementById('input-weight').value;
+      const tail = document.getElementById('input-tail').value;
+      const notes = document.getElementById('input-notes').value;
+
+      const newRecord = {
+        id: 'rec-' + Date.now(),
+        subject,
+        gen,
+        date,
+        weight,
+        tail,
+        notes,
+        image: currentSelectedImageBase64
+      };
+
+      records.unshift(newRecord);
+      saveToStorage();
+      renderGallery();
+      updateStats();
+      closeAddModal();
+      showToast("成功新增照片！🐾");
+    }
+
+    function openLightbox(id) {
       const record = records.find(r => r.id === id);
       if (!record) return;
 
@@ -453,6 +473,7 @@
       document.getElementById('lb-notes').textContent = record.notes || '沒有寫備註喔～';
 
       const badge = document.getElementById('lb-subject-badge');
+      // 修正：大圖視窗中的標籤顯示
       const genText = record.gen || (record.subject === 'Teo' ? '二代鼠' : '一代鼠');
       if (badge) {
         badge.textContent = `♂ ${record.subject} (${genText})`;
@@ -461,20 +482,29 @@
         }`;
       }
 
-      document.getElementById('lb-delete-btn').onclick = () => window.deleteRecord(record.id);
+      document.getElementById('lb-delete-btn').onclick = () => deleteRecord(record.id);
       document.getElementById('modal-lightbox').classList.remove('hidden');
-    };
+    }
 
-    window.closeLightbox = function() {
+    function closeLightbox() {
       document.getElementById('modal-lightbox').classList.add('hidden');
-    };
+    }
 
-    window.openAddModal = function() {
+    function deleteRecord(id) {
+      records = records.filter(r => r.id !== id);
+      saveToStorage();
+      renderGallery();
+      updateStats();
+      closeLightbox();
+      showToast("已刪除該篇照片紀錄");
+    }
+
+    function openAddModal() {
       const form = document.getElementById('record-form');
       if (form) form.reset();
       const dateInput = document.getElementById('input-date');
       if (dateInput) dateInput.valueAsDate = new Date();
-      selectedFile = null;
+      currentSelectedImageBase64 = null;
 
       const previewImg = document.getElementById('preview-img');
       const uploadPrompt = document.getElementById('upload-prompt');
@@ -482,13 +512,13 @@
       if (uploadPrompt) uploadPrompt.classList.remove('hidden');
 
       document.getElementById('modal-add').classList.remove('hidden');
-    };
+    }
 
-    window.closeAddModal = function() {
+    function closeAddModal() {
       document.getElementById('modal-add').classList.add('hidden');
-    };
+    }
 
-    window.setFilter = function(cat) {
+    function setFilter(cat) {
       currentFilter = cat;
       document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.classList.remove('bg-amber-600', 'text-white');
@@ -500,7 +530,7 @@
         activeBtn.classList.add('bg-amber-600', 'text-white');
       }
       renderGallery();
-    };
+    }
 
     function showToast(msg, type = "success") {
       const toast = document.getElementById('toast');
