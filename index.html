@@ -64,22 +64,18 @@
 
       <!-- 主選單 Tabs -->
       <nav class="max-w-6xl mx-auto mt-4 pt-2 border-t border-slate-100 flex gap-2 overflow-x-auto text-xs sm:text-sm font-bold">
-        <button id="nav-gallery" onclick="switchTab('gallery')" class="nav-tab text-amber-700 bg-amber-100/80 px-4 py-2 rounded-xl transition flex items-center gap-1.5">
+        <button id="nav-gallery" onclick="switchTab('gallery')" class="nav-tab text-amber-700 bg-amber-100/80 px-4 py-2 rounded-xl transition flex items-center gap-1.5 whitespace-nowrap">
           <i class="fa-solid fa-images"></i> 觀察相簿
         </button>
-        <button id="nav-videos" onclick="switchTab('videos')" class="nav-tab text-slate-600 hover:bg-amber-50 px-4 py-2 rounded-xl transition flex items-center gap-1.5">
+        <button id="nav-videos" onclick="switchTab('videos')" class="nav-tab text-slate-600 hover:bg-amber-50 px-4 py-2 rounded-xl transition flex items-center gap-1.5 whitespace-nowrap">
           <i class="fa-brands fa-youtube text-red-500"></i> 沙鼠飼養影片
         </button>
-        <button id="nav-docs" onclick="switchTab('docs')" class="nav-tab text-slate-600 hover:bg-amber-50 px-4 py-2 rounded-xl transition flex items-center gap-1.5">
-          <i class="fa-solid fa-book-bookmark text-emerald-600"></i> 養鼠規範跟法條
+        <button id="nav-docs" onclick="switchTab('docs')" class="nav-tab text-slate-600 hover:bg-amber-50 px-4 py-2 rounded-xl transition flex items-center gap-1.5 whitespace-nowrap">
+          <i class="fa-brands fa-reddit-alien text-orange-500"></i> Reddit 全球論壇
         </button>
-        <button id="nav-knowledge" onclick="switchTab('knowledge')" class="nav-tab text-slate-600 hover:bg-amber-50 px-4 py-2 rounded-xl transition flex items-center gap-1.5">
+        <button id="nav-knowledge" onclick="switchTab('knowledge')" class="nav-tab text-slate-600 hover:bg-amber-50 px-4 py-2 rounded-xl transition flex items-center gap-1.5 whitespace-nowrap">
           <i class="fa-solid fa-lightbulb text-amber-500"></i> 飼養知識庫
         </button>
-        <!-- 新增 Reddit 經驗談頁籤 -->
-        <button id="nav-reddit" onclick="switchTab('reddit')" class="nav-tab text-slate-600 hover:bg-amber-50 px-4 py-2 rounded-xl transition flex items-center gap-1.5 whitespace-nowrap">
-        <i class="fa-brands fa-reddit-alien text-orange-500"></i> Reddit 飼主經驗論壇
-      </button>
       </nav>
     </header>
 
@@ -148,17 +144,47 @@
         <div id="video-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
       </section>
 
-      <!-- ================= 頁籤 3：德系規範與法規 ================= -->
+      <!-- ================= 頁籤 3：Reddit 全球鼠友大論壇 ================= -->
       <section id="tab-content-docs" class="tab-page hidden space-y-6">
-        <div class="bg-emerald-50 p-4 sm:p-6 rounded-2xl border border-emerald-200/60">
-          <h2 class="text-lg sm:text-xl font-bold text-emerald-900 flex items-center gap-2">
-            <i class="fa-solid fa-scale-balanced text-emerald-600"></i> 飼養標準跟規範
-          </h2>
-          <p class="text-xs sm:text-sm text-emerald-800 mt-1">各國對小型哺乳類動保規範極為嚴格，裡面有各種小老鼠福利指南。</p>
+        <!-- 頂部 Header 區塊 -->
+        <div class="bg-orange-50 p-4 sm:p-6 rounded-2xl border border-orange-200/60 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div>
+            <h2 class="text-lg sm:text-xl font-bold text-orange-900 flex items-center gap-2">
+              <i class="fa-brands fa-reddit-alien text-orange-500 text-2xl"></i> Reddit 各國飼主大論壇
+            </h2>
+            <p class="text-xs sm:text-sm text-orange-800 mt-1">全球數萬名沙鼠飼主的集中地，即時對照並了解鼠鼠的日常與健康狀態。</p>
+          </div>
+          
+          <!-- 直達 Reddit 的連結按鈕 -->
+          <a href="https://www.reddit.com/r/gerbil/" target="_blank" rel="noopener noreferrer" class="bg-orange-500 hover:bg-orange-600 active:scale-95 text-white text-xs sm:text-sm font-bold px-5 py-2.5 rounded-full shadow-md transition flex items-center gap-2 shrink-0">
+            <i class="fa-brands fa-reddit-alien text-base"></i>
+            <span>前往 r/gerbil 論壇</span>
+          </a>
         </div>
 
-        <!-- 德系規範文件清單 (由 JavaScript 動態渲染) -->
-        <div id="docs-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+        <!-- 論壇特色與即時觀測簡介 -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-white p-5 rounded-2xl border border-amber-100 shadow-sm space-y-2">
+            <div class="text-orange-500 font-bold text-lg"><i class="fa-solid fa-notes-medical"></i> 即時狀態對照</div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              當鼠鼠出現精神不佳、眼睛分泌物或尾巴異常時，可以在論壇即時搜尋關鍵字，參考各國經驗進行緊急應變。
+            </p>
+          </div>
+
+          <div class="bg-white p-5 rounded-2xl border border-amber-100 shadow-sm space-y-2">
+            <div class="text-orange-500 font-bold text-lg"><i class="fa-solid fa-shapes"></i> 豐容與籠舍靈感</div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              匯集各國飼主的墊材厚度佈置、DIY 挖掘隧道與玩具，了解如何提供讓沙鼠最放鬆的居住環境。
+            </p>
+          </div>
+
+          <div class="bg-white p-5 rounded-2xl border border-amber-100 shadow-sm space-y-2">
+            <div class="text-orange-500 font-bold text-lg"><i class="fa-solid fa-comments"></i> 鼠友行為解答</div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              不管是打鼓、打架前兆、還是肥尾沙鼠的特殊習性，都有豐富的影片與討論可供比對。
+            </p>
+          </div>
+        </div>
       </section>
 
       <!-- ================= 頁籤 4：飼養知識庫 ================= -->
@@ -199,23 +225,6 @@
 
         </div>
       </section>
-      <!-- ================= 頁籤 3：Reddit 全球鼠友大論壇 ================= -->
-<section id="tab-content-docs" class="tab-page hidden space-y-6">
-  <!-- 頂部 Header 區塊 -->
-  <div class="bg-orange-50 p-4 sm:p-6 rounded-2xl border border-orange-200/60 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-    <div>
-      <h2 class="text-lg sm:text-xl font-bold text-orange-900 flex items-center gap-2">
-        <i class="fa-brands fa-reddit-alien text-orange-500 text-2xl"></i> Reddit 各國飼主大論壇
-      </h2>
-      <p class="text-xs sm:text-sm text-orange-800 mt-1">全球數萬名沙鼠飼主的集中地，即時對照並了解鼠鼠的日常與健康狀態。</p>
-    </div>
-    
-    <!-- 直達 Reddit 的連結按鈕 -->
-    <a href="https://www.reddit.com/r/gerbil/" target="_blank" rel="noopener noreferrer" class="bg-orange-500 hover:bg-orange-600 active:scale-95 text-white text-xs sm:text-sm font-bold px-5 py-2.5 rounded-full shadow-md transition flex items-center gap-2 shrink-0">
-      <i class="fa-brands fa-reddit-alien text-base"></i>
-      <span>前往 r/gerbil 論壇</span>
-    </a>
-  </div>
 
     </main>
   </div>
@@ -369,7 +378,7 @@
   <!-- JavaScript 邏輯控制區 -->
   <script>
     /* ====================================================================
-       【後端/資料庫區域】這裡是你未來「舉一反三」新增內容的地方！
+       【後端/資料庫區域】
        ==================================================================== */
 
     // 1. 預設沙鼠照片紀錄
@@ -388,7 +397,7 @@
         id: 'rec-2',
         subject: 'Andrina',
         gen: '一代鼠',
-        date: '2024/02/13-2025/09/18',
+        date: '2025/09/18',
         weight: '65',
         tail: '圓潤充實',
         notes: 'Andrina 始祖鼠，從魚中魚買來的，很愛趴在尿上腹部永遠黃黃的',
@@ -396,45 +405,23 @@
       }
     ];
 
-    // 2. YouTube 影片資料庫 (youtubeId 只需要填 v= 後面的 11 位字元代碼)
+    // 2. YouTube 影片資料庫
     const VIDEO_DATABASE = [
       {
         id: 'vid-1',
         title: '【從零開始養】沙鼠(通心粉、長爪沙鼠)!戰鬥時居然會唱歌打鼓?尾巴自帶觸控筆?【許伯簡芝】肥尾沙鼠!',
         category: '飼養教學',
-        youtubeId: 'KOSCkVTwKZc', // 正確：只填 v= 後面的 ID
-        coverImage: 'https://img.youtube.com/vi/KOSCkVTwKZc/hqdefault.jpg', // 自動取得 YouTube 預設縮圖
+        youtubeId: 'KOSCkVTwKZc',
+        coverImage: 'https://img.youtube.com/vi/KOSCkVTwKZc/hqdefault.jpg',
         desc: '介紹肥尾沙鼠的原生棲地環境、基礎飲食以及新手飼養注意事項。'
       },
       {
         id: 'vid-2',
         title: '危險鼠用品：好心幹壞事？你正在「暗殺」你的倉鼠嗎？盤點那些害鼠不淺的地雷用品！｜愛鼠協會',
         category: '籠舍佈置',
-        youtubeId: '74KH6d_ZIq8', // 正確：只填 v= 後面的 ID
-        coverImage: 'https://img.youtube.com/vi/74KH6d_ZIq8/hqdefault.jpg', // 自動取得 YouTube 預設縮圖
+        youtubeId: '74KH6d_ZIq8',
+        coverImage: 'https://img.youtube.com/vi/74KH6d_ZIq8/hqdefault.jpg',
         desc: '示範如何設定 20cm 以上的深度墊材，打造符合沙鼠天然挖掘習性的家。'
-      }
-    ];
-
-    // 3. 德國動保法規與 PDF 條文資料庫
-    const DOCUMENT_DATABASE = [
-      {
-        id: 'doc-1',
-        title: '德國動物保護法 (TierSchG) - 鼠類飼養標準',
-        tag: '德系動保法規',
-        date: '2024 更新版',
-        summary: '德國法律規定所有脊椎動物飼養者必須提供符合其生物學習性的環境。對於沙鼠類，規定最小飼養面積與禁止使用過小的滾輪。',
-        pdfUrl: '#',
-        highlights: ['居住面積不得小於 0.5 平方公尺', '滾輪直徑必須 >= 28cm', '強制要求提供砂浴設施']
-      },
-      {
-        id: 'doc-2',
-        title: 'TVT 德國獸醫協會小型哺乳動物福利指南 (Gerbil篇)',
-        tag: '獸醫協會指南',
-        date: '2023 官方文獻',
-        summary: '由德國獸醫醫學協會 (TVT) 頒布的沙鼠照顧指南，詳細介紹肥尾沙鼠與蒙古沙鼠的社會行為、疾病預防與飲食比例。',
-        pdfUrl: '#',
-        highlights: ['動物性蛋白需求比例', '預防尾巴油脂腺炎方法', '墊材材質與呼吸道健康']
       }
     ];
 
@@ -449,7 +436,6 @@
     window.addEventListener('DOMContentLoaded', () => {
       loadRecords();
       renderVideos();
-      renderDocs();
       const dateInput = document.getElementById('input-date');
       if (dateInput) dateInput.valueAsDate = new Date();
     });
@@ -583,39 +569,6 @@
               <i class="fa-brands fa-youtube text-red-500"></i> 立即觀看影片
             </button>
           </div>
-        </div>
-      `).join('');
-    }
-
-    // 渲染德系規範文件
-    function renderDocs() {
-      const container = document.getElementById('docs-grid');
-      if (!container) return;
-
-      container.innerHTML = DOCUMENT_DATABASE.map(doc => `
-        <div class="bg-white p-6 rounded-3xl border border-emerald-100 shadow-sm flex flex-col justify-between space-y-4">
-          <div class="space-y-3">
-            <div class="flex justify-between items-start gap-2">
-              <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2.5 py-1 rounded-full">
-                ${doc.tag}
-              </span>
-              <span class="text-xs text-slate-400 font-medium">${doc.date}</span>
-            </div>
-            <h3 class="text-base font-bold text-slate-800 leading-snug">${doc.title}</h3>
-            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">${doc.summary}</p>
-            
-            <div class="bg-slate-50 p-3 rounded-2xl border border-slate-100 space-y-1.5">
-              <span class="text-[11px] font-bold text-slate-400 block">重點摘錄：</span>
-              <ul class="list-disc list-inside text-xs text-slate-700 space-y-1">
-                ${doc.highlights.map(h => `<li>${h}</li>`).join('')}
-              </ul>
-            </div>
-          </div>
-
-          <a href="${doc.pdfUrl}" target="_blank" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow transition text-center flex items-center justify-center gap-2">
-            <i class="fa-solid fa-file-pdf"></i>
-            <span>查看/下載原文 PDF</span>
-          </a>
         </div>
       `).join('');
     }
