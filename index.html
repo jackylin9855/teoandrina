@@ -40,20 +40,20 @@
   </style>
 </head>
 <body class="bg-amber-50/50 min-h-screen text-slate-800 flex flex-col justify-between custom-scrollbar">
-</div>
+
   <div>
     <header class="bg-white/80 backdrop-blur-md border-b border-amber-100 sticky top-0 z-30 px-4 py-4 sm:px-8">
       <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-full bg-amber-500 text-white flex items-center justify-center font-bold text-xl shadow-md">
-        <div onclick="goHome()" class="cursor-pointer group flex items-center gap-3">
-  <div class="w-10 h-10 rounded-full bg-amber-500 group-hover:bg-amber-600 text-white flex items-center justify-center font-bold text-xl shadow-md transition">
-    🐾
-  </div>
-  <div>
-    <h1 class="text-xl sm:text-2xl font-bold text-slate-800 font-brand group-hover:text-amber-700 transition">Teo & Andrina</h1>
-    <p class="text-xs text-amber-700 font-medium group-hover:underline">戴家妤養的肥尾沙鼠觀察日誌 & 相簿</p>
-  </div>
+        
+        <!-- 點擊此區域會觸發 goHome() 回到主頁並滑動到最頂端 -->
+        <div onclick="goHome()" class="cursor-pointer group flex items-center gap-3" title="回到主頁">
+          <div class="w-10 h-10 rounded-full bg-amber-500 group-hover:bg-amber-600 text-white flex items-center justify-center font-bold text-xl shadow-md transition">
+            🐾
+          </div>
+          <div>
+            <h1 class="text-xl sm:text-2xl font-bold text-slate-800 font-brand group-hover:text-amber-700 transition">Teo & Andrina</h1>
+            <p class="text-xs text-amber-700 font-medium group-hover:underline">戴家妤養的肥尾沙鼠觀察日誌 & 相簿</p>
+          </div>
         </div>
 
         <button onclick="openAddModal()" class="w-full sm:w-auto bg-amber-600 hover:bg-amber-700 active:scale-95 text-white font-bold px-5 py-2.5 rounded-full shadow-md transition flex items-center justify-center gap-2 text-sm">
@@ -175,9 +175,9 @@
         <div>
           <label class="block font-bold text-slate-700 mb-1">尾巴狀態觀察</label>
           <select id="input-tail" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-slate-700 focus:outline-none focus:border-amber-500">
-            <option value="圓潤充實 ">圓潤充實 </option>
-            <option value="正常形狀 ">正常形狀 </option>
-            <option value="略偏細 ">略偏細 </option>
+            <option value="圓潤充實">圓潤充實</option>
+            <option value="正常形狀">正常形狀</option>
+            <option value="略偏細">略偏細</option>
           </select>
         </div>
 
@@ -253,12 +253,6 @@
   </footer>
 
   <script>
-    /*
-      👇【照片在程式碼裡放置的位置】👇
-      請把下載下來的照片跟 index.html 放在【同一個資料夾】裡：
-      - 第一張 Teo 的照片檔名改為：S__28885000.jpg
-      - 第二張 Andrina 的照片檔名改為：S__28885001.jpg
-    */
     const SAMPLE_RECORDS = [
       {
         id: 'rec-1',
@@ -266,7 +260,7 @@
         gen: '二代鼠',
         date: '2025/02/13',
         weight: '58',
-        tail: '圓潤充實 ',
+        tail: '圓潤充實',
         notes: 'Teo 二代鼠，以前顏值很高又很愛乾淨，現在有變好一點了。',
         image: './S__28885000.jpg'
       },
@@ -276,7 +270,7 @@
         gen: '一代鼠',
         date: '2024/02/13-2025/09/18',
         weight: '65',
-        tail: '圓潤充實 ',
+        tail: '圓潤充實',
         notes: 'Andrina 始祖鼠，從魚中魚買來的，很愛趴在尿上腹部永遠黃黃的',
         image: './S__28885001.jpg'
       }
@@ -294,7 +288,6 @@
 
     function loadRecords() {
       try {
-        // 升級版本號至 v8，強制讓修改後的 SAMPLE_RECORDS 生效
         const saved = localStorage.getItem('gerbil_records_v8');
         if (saved && JSON.parse(saved).length > 0) {
           records = JSON.parse(saved);
@@ -316,6 +309,12 @@
       } catch (e) {
         showToast("⚠️ 容量已滿，請刪除部分舊照或備份！", "error");
       }
+    }
+
+    // 回到主頁函式
+    function goHome() {
+      setFilter('all');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function renderGallery() {
@@ -340,7 +339,6 @@
             ? 'bg-blue-50 text-blue-700 border border-blue-100' 
             : 'bg-indigo-50 text-indigo-700 border border-indigo-100';
 
-          // 修正：Teo 為二代鼠，Andrina 為一代鼠
           const genLabel = record.gen || (record.subject === 'Teo' ? '二代鼠' : '一代鼠');
 
           card.innerHTML = `
@@ -438,7 +436,6 @@
 
       const subjectRadio = document.querySelector('input[name="subject"]:checked');
       const subject = subjectRadio ? subjectRadio.value : 'Teo';
-      // 修正：儲存新紀錄時的預設標籤
       const gen = subject === 'Teo' ? '二代鼠' : '一代鼠';
       const date = document.getElementById('input-date').value;
       const weight = document.getElementById('input-weight').value;
@@ -475,7 +472,6 @@
       document.getElementById('lb-notes').textContent = record.notes || '沒有寫備註喔～';
 
       const badge = document.getElementById('lb-subject-badge');
-      // 修正：大圖視窗中的標籤顯示
       const genText = record.gen || (record.subject === 'Teo' ? '二代鼠' : '一代鼠');
       if (badge) {
         badge.textContent = `♂ ${record.subject} (${genText})`;
@@ -492,7 +488,11 @@
       document.getElementById('modal-lightbox').classList.add('hidden');
     }
 
+    // 刪除提示（是/否 confirm 視窗）
     function deleteRecord(id) {
+      const isConfirmed = confirm("確定要刪除這篇沙鼠照片紀錄嗎？🐾\n（刪除後無法復原喔）");
+      if (!isConfirmed) return;
+
       records = records.filter(r => r.id !== id);
       saveToStorage();
       renderGallery();
