@@ -140,13 +140,12 @@
           <p class="text-xs sm:text-sm text-amber-800 mt-1">你家的鼠鼠入厝前必看的知識影片。</p>
         </div>
 
-        <!-- 影片網格區 (由 JavaScript 動態渲染) -->
+        <!-- 影片網格區 -->
         <div id="video-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
       </section>
 
       <!-- ================= 頁籤 3：Reddit 全球鼠友大論壇 ================= -->
       <section id="tab-content-docs" class="tab-page hidden space-y-6">
-        <!-- 頂部 Header 區塊 -->
         <div class="bg-orange-50 p-4 sm:p-6 rounded-2xl border border-orange-200/60 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
             <h2 class="text-lg sm:text-xl font-bold text-orange-900 flex items-center gap-2">
@@ -155,7 +154,6 @@
             <p class="text-xs sm:text-sm text-orange-800 mt-1">全球數萬名沙鼠飼主的集中地，即時對照並了解鼠鼠的日常與健康狀態。</p>
           </div>
           
-          <!-- 直達 Reddit 的連結按鈕 -->
           <a href="https://www.reddit.com/r/gerbil/" target="_blank" rel="noopener noreferrer" class="bg-orange-500 hover:bg-orange-600 active:scale-95 text-white text-xs sm:text-sm font-bold px-5 py-2.5 rounded-full shadow-md transition flex items-center gap-2 shrink-0">
             <i class="fa-brands fa-reddit-alien text-base"></i>
             <span>前往 r/gerbil 論壇</span>
@@ -357,7 +355,7 @@
        【後端/資料庫區域】
        ==================================================================== */
 
-    // 1. 預設沙鼠照片紀錄
+    // 1. 預設沙鼠照片紀錄 (修復逗號問題)
     const SAMPLE_RECORDS = [
       {
         id: 'rec-1',
@@ -379,31 +377,31 @@
         notes: 'Andrina 始祖鼠，從魚中魚買來的，很愛趴在尿上腹部永遠黃黃的',
         image: './S__28885001.jpg'
       },
-         {
+      {
         id: 'rec-3',
         subject: 'Andrina',
         gen: '一代鼠',
         date: '2025/09/18',
         weight: '65',
-        tail: '圓潤充實'
+        tail: '圓潤充實',
         image: './S__28925994_0.jpg'
       },
-     {
+      {
         id: 'rec-4',
-        subject: 'Andrina',
+        subject: 'Andrina&戴家妤',
         gen: '一代鼠',
         date: '2025/09/18',
         weight: '65',
-        tail: '圓潤充實'
+        tail: '圓潤充實',
         image: './S__28925999_0.jpg'
       },
-     {
+      {
         id: 'rec-5',
         subject: 'Teo',
-        gen: '一代鼠',
+        gen: '二代鼠',
         date: '2025/02/13',
         weight: '58',
-        tail: '圓潤充實'
+        tail: '圓潤充實',
         image: './S__28925997_0.jpg'
       }
     ];
