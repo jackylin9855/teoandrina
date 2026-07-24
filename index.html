@@ -13,7 +13,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
 
   <style>
-    /* 強制全面使用思源黑體，絕不變成標楷體 */
     *, *::before, *::after {
       font-family: "Noto Sans TC", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang TC", "Microsoft JhengHei", sans-serif !important;
     }
@@ -40,11 +39,11 @@
   </style>
 </head>
 <body class="bg-amber-50/50 min-h-screen text-slate-800 flex flex-col justify-between custom-scrollbar">
+
   <div>
     <header class="bg-white/80 backdrop-blur-md border-b border-amber-100 sticky top-0 z-30 px-4 py-4 sm:px-8">
       <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
         
-        <!-- 點擊此區域會觸發 goHome() 回到主頁並滑動到最頂端 -->
         <div onclick="goHome()" class="cursor-pointer group flex items-center gap-3" title="回到主頁">
           <div class="w-10 h-10 rounded-full bg-amber-500 group-hover:bg-amber-600 text-white flex items-center justify-center font-bold text-xl shadow-md transition">
             🐾
@@ -96,10 +95,9 @@
       </div>
 
       <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-        <!-- JS 會動態將卡片渲染至此 -->
+        <!-- JS 會動態渲染 -->
       </div>
 
-      <!-- 空白狀態提示 -->
       <div id="empty-state" class="hidden text-center py-16 bg-white/60 rounded-3xl border border-dashed border-amber-200 p-8 my-8">
         <div class="text-5xl mb-4">🐹🐾</div>
         <h3 class="text-lg font-bold text-amber-900 mb-1">還沒有照片紀錄喔！</h3>
@@ -125,7 +123,6 @@
 
       <form id="record-form" onsubmit="handleSaveRecord(event)" class="p-6 overflow-y-auto space-y-4 text-xs sm:text-sm custom-scrollbar">
         
-        <!-- 選擇主角 -->
         <div>
           <label class="block font-bold text-slate-700 mb-2">相片主角 <span class="text-red-500">*</span></label>
           <div class="grid grid-cols-2 gap-3">
@@ -142,7 +139,6 @@
           </div>
         </div>
 
-        <!-- 照片上傳區 -->
         <div>
           <label class="block font-bold text-slate-700 mb-2">選擇照片 <span class="text-red-500">*</span></label>
           <div onclick="document.getElementById('file-input').click()" class="border-2 border-dashed border-amber-300 bg-amber-50/30 hover:bg-amber-100/40 rounded-2xl p-4 text-center cursor-pointer transition min-h-[160px] flex flex-col items-center justify-center relative overflow-hidden">
@@ -151,14 +147,13 @@
             <div id="upload-prompt" class="space-y-2">
               <div class="text-3xl text-amber-500"><i class="fa-solid fa-cloud-arrow-up"></i></div>
               <p class="font-medium text-slate-600">點擊此處上傳照片</p>
-              <p class="text-[11px] text-slate-400">系統將自動壓縮圖片（免擔心卡頓）</p>
+              <p class="text-[11px] text-slate-400">照片將自動同步給所有人看</p>
             </div>
 
             <img id="preview-img" class="absolute inset-0 w-full h-full object-cover hidden" alt="Preview">
           </div>
         </div>
 
-        <!-- 日期與體重 -->
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block font-bold text-slate-700 mb-1">觀察日期</label>
@@ -170,7 +165,6 @@
           </div>
         </div>
 
-        <!-- 尾巴充實度 -->
         <div>
           <label class="block font-bold text-slate-700 mb-1">尾巴狀態觀察</label>
           <select id="input-tail" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-slate-700 focus:outline-none focus:border-amber-500">
@@ -180,15 +174,14 @@
           </select>
         </div>
 
-        <!-- 筆記觀察 -->
         <div>
           <label class="block font-bold text-slate-700 mb-1">日常觀察筆記</label>
-          <textarea id="input-notes" rows="3" placeholder="繳交500字心得記錄今天的精神狀態、食慾、有沒有呼吸問題" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-slate-700 focus:outline-none focus:border-amber-500 resize-none"></textarea>
+          <textarea id="input-notes" rows="3" placeholder="記錄今天的精神狀態..." class="w-full border border-slate-200 rounded-xl px-3 py-2 text-slate-700 focus:outline-none focus:border-amber-500 resize-none"></textarea>
         </div>
 
         <div class="pt-2">
-          <button type="submit" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 rounded-2xl shadow-md transition">
-            儲存觀察照片 🐾
+          <button id="submit-btn" type="submit" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 rounded-2xl shadow-md transition flex items-center justify-center gap-2">
+            <span>儲存觀察照片 🐾</span>
           </button>
         </div>
       </form>
@@ -251,67 +244,52 @@
     <p>Teo & Andrina 肥尾沙鼠成長觀察日記 🐾</p>
   </footer>
 
-  <script>
-    const SAMPLE_RECORDS = [
-      {
-        id: 'rec-1',
-        subject: 'Teo',
-        gen: '二代鼠',
-        date: '2025/02/13',
-        weight: '58',
-        tail: '圓潤充實',
-        notes: 'Teo 二代鼠，以前顏值很高又很愛乾淨，現在有變好一點了。',
-        image: './S__28885000.jpg'
-      },
-      {
-        id: 'rec-2',
-        subject: 'Andrina',
-        gen: '一代鼠',
-        date: '2024/02/13-2025/09/18',
-        weight: '65',
-        tail: '圓潤充實',
-        notes: 'Andrina 始祖鼠，從魚中魚買來的，很愛趴在尿上腹部永遠黃黃的',
-        image: './S__28885001.jpg'
-      }
-    ];
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getStorage, ref, uploadString, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
+
+    // 帶入你的 Firebase 金鑰
+    const firebaseConfig = {
+      apiKey: "AIzaSyAmBUpaMCYWlTA4RO4XuUnicYSLJKWNNGI",
+      authDomain: "teoandrina-e52f4.firebaseapp.com",
+      databaseURL: "https://teoandrina-e52f4-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "teoandrina-e52f4",
+      storageBucket: "teoandrina-e52f4.firebasestorage.app",
+      messagingSenderId: "146298445643",
+      appId: "1:146298445643:web:29eb942de50f7b0ecf92ce",
+      measurementId: "G-K29HSTR5Y6"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
 
     let records = [];
     let currentFilter = 'all';
     let currentSelectedImageBase64 = null;
 
     window.addEventListener('DOMContentLoaded', () => {
-      loadRecords();
       const dateInput = document.getElementById('input-date');
       if (dateInput) dateInput.valueAsDate = new Date();
+      listenToFirebase();
     });
 
-    function loadRecords() {
-      try {
-        const saved = localStorage.getItem('gerbil_records_v8');
-        if (saved && JSON.parse(saved).length > 0) {
-          records = JSON.parse(saved);
-        } else {
-          records = [...SAMPLE_RECORDS];
-          saveToStorage();
-        }
-      } catch (err) {
-        console.error("Storage Load Error:", err);
-        records = [...SAMPLE_RECORDS];
-      }
-      renderGallery();
-      updateStats();
+    function listenToFirebase() {
+      const q = query(collection(db, "gerbil_records"), orderBy("createdAt", "desc"));
+      onSnapshot(q, (snapshot) => {
+        records = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        renderGallery();
+        updateStats();
+      }, (err) => {
+        console.error("Firebase Snapshot Error:", err);
+      });
     }
 
-    function saveToStorage() {
-      try {
-        localStorage.setItem('gerbil_records_v8', JSON.stringify(records));
-      } catch (e) {
-        showToast("⚠️ 容量已滿，請刪除部分舊照或備份！", "error");
-      }
-    }
-
-    // 回到主頁函式
-    function goHome() {
+    window.goHome = function() {
       setFilter('all');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -380,7 +358,7 @@
       if (andrinaElem) andrinaElem.textContent = andrinaRecords.length > 0 ? `最新: ${andrinaRecords[0].weight} g` : `最新: -- g`;
     }
 
-    function handleFileSelect(e) {
+    window.handleFileSelect = function(e) {
       const file = e.target.files[0];
       if (!file) return;
 
@@ -425,7 +403,7 @@
       reader.readAsDataURL(file);
     }
 
-    function handleSaveRecord(e) {
+    window.handleSaveRecord = async function(e) {
       e.preventDefault();
 
       if (!currentSelectedImageBase64) {
@@ -433,31 +411,45 @@
         return;
       }
 
-      const subjectRadio = document.querySelector('input[name="subject"]:checked');
-      const subject = subjectRadio ? subjectRadio.value : 'Teo';
-      const gen = subject === 'Teo' ? '二代鼠' : '一代鼠';
-      const date = document.getElementById('input-date').value;
-      const weight = document.getElementById('input-weight').value;
-      const tail = document.getElementById('input-tail').value;
-      const notes = document.getElementById('input-notes').value;
+      const submitBtn = document.getElementById('submit-btn');
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> 上傳中...`;
 
-      const newRecord = {
-        id: 'rec-' + Date.now(),
-        subject,
-        gen,
-        date,
-        weight,
-        tail,
-        notes,
-        image: currentSelectedImageBase64
-      };
+      try {
+        const imgPath = `images/${Date.now()}.jpg`;
+        const storageRef = ref(storage, imgPath);
+        await uploadString(storageRef, currentSelectedImageBase64, 'data_url');
+        const downloadURL = await getDownloadURL(storageRef);
 
-      records.unshift(newRecord);
-      saveToStorage();
-      renderGallery();
-      updateStats();
-      closeAddModal();
-      showToast("成功新增照片！🐾");
+        const subjectRadio = document.querySelector('input[name="subject"]:checked');
+        const subject = subjectRadio ? subjectRadio.value : 'Teo';
+        const gen = subject === 'Teo' ? '二代鼠' : '一代鼠';
+        const date = document.getElementById('input-date').value;
+        const weight = document.getElementById('input-weight').value;
+        const tail = document.getElementById('input-tail').value;
+        const notes = document.getElementById('input-notes').value;
+
+        await addDoc(collection(db, "gerbil_records"), {
+          subject,
+          gen,
+          date,
+          weight,
+          tail,
+          notes,
+          image: downloadURL,
+          storagePath: imgPath,
+          createdAt: Date.now()
+        });
+
+        closeAddModal();
+        showToast("成功新增照片至雲端！🐾");
+      } catch (err) {
+        console.error("Upload Error:", err);
+        showToast("上傳失敗，請記得開啟權限", "error");
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = `<span>儲存觀察照片 🐾</span>`;
+      }
     }
 
     function openLightbox(id) {
@@ -479,28 +471,33 @@
         }`;
       }
 
-      document.getElementById('lb-delete-btn').onclick = () => deleteRecord(record.id);
+      document.getElementById('lb-delete-btn').onclick = () => deleteRecord(record);
       document.getElementById('modal-lightbox').classList.remove('hidden');
     }
 
-    function closeLightbox() {
+    window.closeLightbox = function() {
       document.getElementById('modal-lightbox').classList.add('hidden');
     }
 
-    // 刪除提示（是/否 confirm 視窗）
-    function deleteRecord(id) {
-      const isConfirmed = confirm("確定要刪除這篇沙鼠照片紀錄嗎？🐾\n（刪除後無法復原喔）");
+    async function deleteRecord(record) {
+      const isConfirmed = confirm("確定要刪除這篇照片紀錄嗎？🐾");
       if (!isConfirmed) return;
 
-      records = records.filter(r => r.id !== id);
-      saveToStorage();
-      renderGallery();
-      updateStats();
-      closeLightbox();
-      showToast("已刪除該篇照片紀錄");
+      try {
+        await deleteDoc(doc(db, "gerbil_records", record.id));
+        if (record.storagePath) {
+          const imgRef = ref(storage, record.storagePath);
+          await deleteObject(imgRef).catch(e => console.log("Img delete skip", e));
+        }
+        closeLightbox();
+        showToast("已刪除該照片");
+      } catch (err) {
+        console.error("Delete Error:", err);
+        showToast("刪除失敗", "error");
+      }
     }
 
-    function openAddModal() {
+    window.openAddModal = function() {
       const form = document.getElementById('record-form');
       if (form) form.reset();
       const dateInput = document.getElementById('input-date');
@@ -515,11 +512,11 @@
       document.getElementById('modal-add').classList.remove('hidden');
     }
 
-    function closeAddModal() {
+    window.closeAddModal = function() {
       document.getElementById('modal-add').classList.add('hidden');
     }
 
-    function setFilter(cat) {
+    window.setFilter = function(cat) {
       currentFilter = cat;
       document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.classList.remove('bg-amber-600', 'text-white');
