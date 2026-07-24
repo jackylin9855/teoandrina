@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teo & Andrina 肥尾沙鼠畫廊 🐾</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js" defer></script>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* 強制全面使用思源黑體，絕不變成標楷體 */
+    *, *::before, *::after {
+      font-family: "Noto Sans TC", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang TC", "Microsoft JhengHei", sans-serif !important;
+    }
+    
+    .font-brand {
+      font-family: 'Comfortaa', "Noto Sans TC", sans-serif !important;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #fdf6ed;
+      border-radius: 10px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #d97706;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body class="bg-amber-50/50 min-h-screen text-slate-800 flex flex-col justify-between custom-scrollbar">
+
+  <div>
+    <header class="bg-white/80 backdrop-blur-md border-b border-amber-100 sticky top-0 z-30 px-4 py-4 sm:px-8">
+      <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-amber-500 text-white flex items-center justify-center font-bold text-xl shadow-md">
+            🐾
+          </div>
+          <div>
+            <h1 class="text-xl sm:text-2xl font-bold text-slate-800 font-brand">Teo & Andrina</h1>
+            <p class="text-xs text-amber-700 font-medium">戴家妤養的肥尾沙鼠觀察日誌 & 相簿</p>
+          </div>
+        </div>
+
+        <button onclick="openAddModal()" class="w-full sm:w-auto bg-amber-600 hover:bg-amber-700 active:scale-95 text-white font-bold px-5 py-2.5 rounded-full shadow-md transition flex items-center justify-center gap-2 text-sm">
+          <i class="fa-solid fa-plus"></i>
+          <span>照片</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-6 sm:py-8 space-y-6">
+      
+      <section class="grid grid-cols-3 gap-3 sm:gap-6">
+        <div class="bg-white p-3 sm:p-4 rounded-2xl border border-amber-100 shadow-sm flex flex-col items-center sm:items-start">
+          <span class="text-xs text-slate-400 font-medium">總相片筆數</span>
+          <span id="stat-total-count" class="text-lg sm:text-2xl font-bold text-amber-900 mt-1">0 篇</span>
+        </div>
+        <div class="bg-blue-50/60 p-3 sm:p-4 rounded-2xl border border-blue-100 shadow-sm flex flex-col items-center sm:items-start">
+          <span class="text-xs text-blue-600 font-medium flex items-center gap-1">
+            <i class="fa-solid fa-mars text-blue-500"></i> Teo 體重 (二代鼠)
+          </span>
+          <span id="stat-teo-latest" class="text-lg sm:text-2xl font-bold text-blue-900 mt-1">最新: -- g</span>
+        </div>
+        <div class="bg-indigo-50/60 p-3 sm:p-4 rounded-2xl border border-indigo-100 shadow-sm flex flex-col items-center sm:items-start">
+          <span class="text-xs text-indigo-600 font-medium flex items-center gap-1">
+            <i class="fa-solid fa-mars text-indigo-500"></i> Andrina 體重 (一代鼠)
+          </span>
+          <span id="stat-andrina-latest" class="text-lg sm:text-2xl font-bold text-indigo-900 mt-1">最新: -- g</span>
+        </div>
+      </section>
+
+      <div class="flex justify-center sm:justify-start gap-2 border-b border-amber-200/60 pb-3 overflow-x-auto">
+        <button id="filter-all" onclick="setFilter('all')" class="filter-btn bg-amber-600 text-white px-5 py-1.5 rounded-full text-xs sm:text-sm font-bold shadow-sm transition">
+          全部相片
+        </button>
+        <button id="filter-Teo" onclick="setFilter('Teo')" class="filter-btn bg-white text-slate-600 hover:bg-blue-50 px-5 py-1.5 rounded-full text-xs sm:text-sm font-bold shadow-sm transition border border-slate-200">
+          ♂ Teo (二代鼠)
+        </button>
+        <button id="filter-Andrina" onclick="setFilter('Andrina')" class="filter-btn bg-white text-slate-600 hover:bg-indigo-50 px-5 py-1.5 rounded-full text-xs sm:text-sm font-bold shadow-sm transition border border-slate-200">
+          ♂ Andrina (一代鼠)
+        </button>
+      </div>
+
+      <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+        <!-- JS 會動態將卡片渲染至此 -->
+      </div>
+
+      <!-- 空白狀態提示 -->
+      <div id="empty-state" class="hidden text-center py-16 bg-white/60 rounded-3xl border border-dashed border-amber-200 p-8 my-8">
+        <div class="text-5xl mb-4">🐹🐾</div>
+        <h3 class="text-lg font-bold text-amber-900 mb-1">還沒有照片紀錄喔！</h3>
+        <p class="text-xs sm:text-sm text-slate-500 mb-6">點擊右上角按鈕，加入 Teo 與 Andrina 第一張生活照吧！</p>
+        <button onclick="openAddModal()" class="inline-flex items-center gap-2 bg-amber-600 text-white font-bold px-6 py-2.5 rounded-full shadow hover:bg-amber-700 transition text-sm">
+          <i class="fa-solid fa-plus"></i>
+          <span>+ 照片</span>
+        </button>
+      </div>
+
+    </main>
+  </div>
+
+  <div id="modal-add" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+      
+      <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-amber-50/50">
+        <h3 class="font-bold text-slate-800 text-base flex items-center gap-2">
+          <span>🐾 新增觀察相片</span>
+        </h3>
+        <button onclick="closeAddModal()" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center text-sm transition">✕</button>
+      </div>
+
+      <form id="record-form" onsubmit="handleSaveRecord(event)" class="p-6 overflow-y-auto space-y-4 text-xs sm:text-sm custom-scrollbar">
+        
+        <!-- 選擇主角 -->
+        <div>
+          <label class="block font-bold text-slate-700 mb-2">相片主角 <span class="text-red-500">*</span></label>
+          <div class="grid grid-cols-2 gap-3">
+            <label class="cursor-pointer border-2 border-slate-200 rounded-2xl p-3 flex flex-col items-center justify-center gap-1 has-[:checked]:border-blue-500 has-[:checked]:bg-blue-50 transition">
+              <input type="radio" name="subject" value="Teo" checked class="hidden">
+              <span class="font-bold text-blue-700">♂ Teo</span>
+              <span class="text-[10px] bg-blue-200 text-blue-800 px-2 py-0.5 rounded-full">二代鼠</span>
+            </label>
+            <label class="cursor-pointer border-2 border-slate-200 rounded-2xl p-3 flex flex-col items-center justify-center gap-1 has-[:checked]:border-indigo-500 has-[:checked]:bg-indigo-50 transition">
+              <input type="radio" name="subject" value="Andrina" class="hidden">
+              <span class="font-bold text-indigo-700">♂ Andrina</span>
+              <span class="text-[10px] bg-indigo-200 text-indigo-800 px-2 py-0.5 rounded-full">一代鼠</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- 照片上傳區 -->
+        <div>
+          <label class="block font-bold text-slate-700 mb-2">選擇照片 <span class="text-red-500">*</span></label>
+          <div onclick="document.getElementById('file-input').click()" class="border-2 border-dashed border-amber-300 bg-amber-50/30 hover:bg-amber-100/40 rounded-2xl p-4 text-center cursor-pointer transition min-h-[160px] flex flex-col items-center justify-center relative overflow-hidden">
+            <input type="file" id="file-input" accept="image/*" class="hidden" onchange="handleFileSelect(event)">
+            
+            <div id="upload-prompt" class="space-y-2">
+              <div class="text-3xl text-amber-500"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+              <p class="font-medium text-slate-600">點擊此處上傳照片</p>
+              <p class="text-[11px] text-slate-400">系統將自動壓縮圖片（免擔心卡頓）</p>
+            </div>
+
+            <img id="preview-img" class="absolute inset-0 w-full h-full object-cover hidden" alt="Preview">
+          </div>
+        </div>
+
+        <!-- 日期與體重 -->
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">觀察日期</label>
+            <input type="date" id="input-date" required class="w-full border border-slate-200 rounded-xl px-3 py-2 text-slate-700 focus:outline-none focus:border-amber-500">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">當天體重 (g)</label>
+            <input type="number" id="input-weight" placeholder="例如: 45" step="0.1" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-slate-700 focus:outline-none focus:border-amber-500">
+          </div>
+        </div>
+
+        <!-- 尾巴充實度 -->
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">尾巴狀態觀察</label>
+          <select id="input-tail" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-slate-700 focus:outline-none focus:border-amber-500">
+            <option value="圓潤充實 ">圓潤充實 </option>
+            <option value="正常形狀 ">正常形狀 </option>
+            <option value="略偏細 ">略偏細 </option>
+          </select>
+        </div>
+
+        <!-- 筆記觀察 -->
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">日常觀察筆記</label>
+          <textarea id="input-notes" rows="3" placeholder="繳交500字心得記錄今天的精神狀態、食慾、有沒有呼吸問題" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-slate-700 focus:outline-none focus:border-amber-500 resize-none"></textarea>
+        </div>
+
+        <div class="pt-2">
+          <button type="submit" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 rounded-2xl shadow-md transition">
+            儲存觀察照片 🐾
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <div id="modal-lightbox" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="closeLightbox()">
+    <div class="bg-white w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]" onclick="event.stopPropagation()">
+      
+      <div class="relative bg-slate-950 flex items-center justify-center max-h-[55vh] overflow-hidden">
+        <img id="lb-img" class="max-h-[55vh] w-auto max-w-full object-contain" src="" alt="Detail">
+        <button onclick="closeLightbox()" class="absolute top-3 right-3 bg-black/50 hover:bg-black/80 text-white w-9 h-9 rounded-full flex items-center justify-center text-sm backdrop-blur-md transition">✕</button>
+      </div>
+
+      <div class="p-6 overflow-y-auto space-y-4 custom-scrollbar">
+        <div class="flex justify-between items-start">
+          <div class="flex items-center gap-2">
+            <span id="lb-subject-badge" class="px-3 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-700">
+              ♂ Teo (二代鼠)
+            </span>
+            <span id="lb-date" class="text-xs text-slate-400">2026-07-23</span>
+          </div>
+          <button id="lb-delete-btn" class="text-xs text-red-500 hover:text-red-700 font-medium transition flex items-center gap-1">
+            <i class="fa-regular fa-trash-can"></i>
+            <span>刪除此篇</span>
+          </button>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 bg-amber-50/50 p-3 rounded-2xl border border-amber-100 text-xs">
+          <div>
+            <span class="text-slate-400 block">紀錄體重</span>
+            <span id="lb-weight" class="font-bold text-amber-900 text-sm">-- g</span>
+          </div>
+          <div>
+            <span class="text-slate-400 block">尾巴狀態</span>
+            <span id="lb-tail" class="font-bold text-slate-700 text-sm">正常</span>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="text-xs font-bold text-slate-400 mb-1">觀察筆記</h4>
+          <p id="lb-notes" class="text-xs sm:text-sm text-slate-700 leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100 min-h-[60px]">
+            沒有寫備註喔...
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+    <div class="bg-slate-900/90 text-white px-4 py-3 rounded-2xl shadow-xl flex items-center gap-3 backdrop-blur-md text-xs sm:text-sm">
+      <i id="toast-icon" class="fa-solid fa-circle-check text-emerald-400"></i>
+      <span id="toast-msg">操作成功！</span>
+    </div>
+  </div>
+
+  <footer class="py-6 text-center text-xs text-slate-400 border-t border-amber-100 mt-12">
+    <p>Teo & Andrina 肥尾沙鼠成長觀察日記 🐾</p>
+  </footer>
+
+  <script>
+    /*
+      👇【照片在程式碼裡放置的位置】👇
+      請把下載下來的照片跟 index.html 放在【同一個資料夾】裡：
+      - 第一張 Teo 的照片檔名改為：S__28885000.jpg
+      - 第二張 Andrina 的照片檔名改為：S__28885001.jpg
+    */
+    const SAMPLE_RECORDS = [
+      {
+        id: 'rec-1',
+        subject: 'Teo',
+        gen: '二代鼠',
+        date: '2025/02/13',
+        weight: '58',
+        tail: '圓潤充實 ',
+        notes: 'Teo 二代鼠，以前顏值很高又很愛乾淨，現在有變好一點了。',
+        image: './S__28885000.jpg'
+      },
+      {
+        id: 'rec-2',
+        subject: 'Andrina',
+        gen: '一代鼠',
+        date: '2024/02/13-2025/09/18',
+        weight: '65',
+        tail: '圓潤充實 ',
+        notes: 'Andrina 始祖鼠，從魚中魚買來的，很愛趴在尿上腹部永遠黃黃的',
+        image: './S__28885001.jpg'
+      }
+    ];
+
+    let records = [];
+    let currentFilter = 'all';
+    let currentSelectedImageBase64 = null;
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadRecords();
+      const dateInput = document.getElementById('input-date');
+      if (dateInput) dateInput.valueAsDate = new Date();
+    });
+
+    function loadRecords() {
+      try {
+        // 升級版本號至 v8，強制讓修改後的 SAMPLE_RECORDS 生效
+        const saved = localStorage.getItem('gerbil_records_v8');
+        if (saved && JSON.parse(saved).length > 0) {
+          records = JSON.parse(saved);
+        } else {
+          records = [...SAMPLE_RECORDS];
+          saveToStorage();
+        }
+      } catch (err) {
+        console.error("Storage Load Error:", err);
+        records = [...SAMPLE_RECORDS];
+      }
+      renderGallery();
+      updateStats();
+    }
+
+    function saveToStorage() {
+      try {
+        localStorage.setItem('gerbil_records_v8', JSON.stringify(records));
+      } catch (e) {
+        showToast("⚠️ 容量已滿，請刪除部分舊照或備份！", "error");
+      }
+    }
+
+    function renderGallery() {
+      const grid = document.getElementById('gallery-grid');
+      const emptyState = document.getElementById('empty-state');
+      if (!grid || !emptyState) return;
+
+      grid.innerHTML = '';
+      const filtered = records.filter(r => currentFilter === 'all' || r.subject === currentFilter);
+
+      if (filtered.length === 0) {
+        emptyState.classList.remove('hidden');
+      } else {
+        emptyState.classList.add('hidden');
+        
+        filtered.forEach(record => {
+          const card = document.createElement('div');
+          card.className = "bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition duration-300 border border-amber-100 group cursor-pointer flex flex-col";
+          card.onclick = () => openLightbox(record.id);
+
+          const subjectColor = record.subject === 'Teo' 
+            ? 'bg-blue-50 text-blue-700 border border-blue-100' 
+            : 'bg-indigo-50 text-indigo-700 border border-indigo-100';
+
+          // 修正：Teo 為二代鼠，Andrina 為一代鼠
+          const genLabel = record.gen || (record.subject === 'Teo' ? '二代鼠' : '一代鼠');
+
+          card.innerHTML = `
+            <div class="aspect-square w-full bg-slate-100 overflow-hidden relative">
+              <img src="${record.image}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" alt="${record.subject}">
+              <span class="absolute top-3 left-3 text-[11px] font-bold px-2.5 py-1 rounded-full backdrop-blur-md shadow-sm ${subjectColor}">
+                ♂ ${record.subject} · ${genLabel}
+              </span>
+            </div>
+            <div class="p-4 flex-1 flex flex-col justify-between space-y-2">
+              <div>
+                <div class="flex justify-between items-center text-xs text-slate-400 mb-1">
+                  <span><i class="fa-regular fa-calendar mr-1"></i>${record.date}</span>
+                  ${record.weight ? `<span class="font-bold text-amber-700"><i class="fa-solid fa-weight-scale mr-1"></i>${record.weight}g</span>` : ''}
+                </div>
+                <p class="text-xs text-slate-600 line-clamp-2 leading-relaxed">${record.notes || '沒有備註日記...'}</p>
+              </div>
+              <div class="pt-2 border-t border-slate-50 flex justify-between items-center text-[11px] text-slate-400">
+                <span>尾巴: ${record.tail ? record.tail.split(' ')[0] : '正常'}</span>
+                <span class="text-amber-600 font-medium group-hover:underline">看大圖 →</span>
+              </div>
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+      }
+    }
+
+    function updateStats() {
+      const totalElem = document.getElementById('stat-total-count');
+      const teoElem = document.getElementById('stat-teo-latest');
+      const andrinaElem = document.getElementById('stat-andrina-latest');
+
+      if (totalElem) totalElem.textContent = `${records.length} 篇`;
+
+      const teoRecords = records.filter(r => r.subject === 'Teo' && r.weight).sort((a,b) => new Date(b.date) - new Date(a.date));
+      const andrinaRecords = records.filter(r => r.subject === 'Andrina' && r.weight).sort((a,b) => new Date(b.date) - new Date(a.date));
+
+      if (teoElem) teoElem.textContent = teoRecords.length > 0 ? `最新: ${teoRecords[0].weight} g` : `最新: -- g`;
+      if (andrinaElem) andrinaElem.textContent = andrinaRecords.length > 0 ? `最新: ${andrinaRecords[0].weight} g` : `最新: -- g`;
+    }
+
+    function handleFileSelect(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        const img = new Image();
+        img.onload = function() {
+          const canvas = document.createElement('canvas');
+          let width = img.width;
+          let height = img.height;
+          const maxDim = 800;
+
+          if (width > height) {
+            if (width > maxDim) {
+              height = Math.round((height * maxDim) / width);
+              width = maxDim;
+            }
+          } else {
+            if (height > maxDim) {
+              width = Math.round((width * maxDim) / height);
+              height = maxDim;
+            }
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+
+          currentSelectedImageBase64 = canvas.toDataURL('image/jpeg', 0.75);
+
+          const previewImg = document.getElementById('preview-img');
+          const uploadPrompt = document.getElementById('upload-prompt');
+          if (previewImg && uploadPrompt) {
+            previewImg.src = currentSelectedImageBase64;
+            previewImg.classList.remove('hidden');
+            uploadPrompt.classList.add('hidden');
+          }
+        };
+        img.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function handleSaveRecord(e) {
+      e.preventDefault();
+
+      if (!currentSelectedImageBase64) {
+        showToast("請先選擇一張照片喔！", "error");
+        return;
+      }
+
+      const subjectRadio = document.querySelector('input[name="subject"]:checked');
+      const subject = subjectRadio ? subjectRadio.value : 'Teo';
+      // 修正：儲存新紀錄時的預設標籤
+      const gen = subject === 'Teo' ? '二代鼠' : '一代鼠';
+      const date = document.getElementById('input-date').value;
+      const weight = document.getElementById('input-weight').value;
+      const tail = document.getElementById('input-tail').value;
+      const notes = document.getElementById('input-notes').value;
+
+      const newRecord = {
+        id: 'rec-' + Date.now(),
+        subject,
+        gen,
+        date,
+        weight,
+        tail,
+        notes,
+        image: currentSelectedImageBase64
+      };
+
+      records.unshift(newRecord);
+      saveToStorage();
+      renderGallery();
+      updateStats();
+      closeAddModal();
+      showToast("成功新增照片！🐾");
+    }
+
+    function openLightbox(id) {
+      const record = records.find(r => r.id === id);
+      if (!record) return;
+
+      document.getElementById('lb-img').src = record.image;
+      document.getElementById('lb-date').textContent = record.date;
+      document.getElementById('lb-weight').textContent = record.weight ? `${record.weight} g` : '未紀錄';
+      document.getElementById('lb-tail').textContent = record.tail || '正常';
+      document.getElementById('lb-notes').textContent = record.notes || '沒有寫備註喔～';
+
+      const badge = document.getElementById('lb-subject-badge');
+      // 修正：大圖視窗中的標籤顯示
+      const genText = record.gen || (record.subject === 'Teo' ? '二代鼠' : '一代鼠');
+      if (badge) {
+        badge.textContent = `♂ ${record.subject} (${genText})`;
+        badge.className = `px-3 py-1 rounded-full text-xs font-bold ${
+          record.subject === 'Teo' ? 'bg-blue-100 text-blue-700' : 'bg-indigo-100 text-indigo-700'
+        }`;
+      }
+
+      document.getElementById('lb-delete-btn').onclick = () => deleteRecord(record.id);
+      document.getElementById('modal-lightbox').classList.remove('hidden');
+    }
+
+    function closeLightbox() {
+      document.getElementById('modal-lightbox').classList.add('hidden');
+    }
+
+    function deleteRecord(id) {
+      records = records.filter(r => r.id !== id);
+      saveToStorage();
+      renderGallery();
+      updateStats();
+      closeLightbox();
+      showToast("已刪除該篇照片紀錄");
+    }
+
+    function openAddModal() {
+      const form = document.getElementById('record-form');
+      if (form) form.reset();
+      const dateInput = document.getElementById('input-date');
+      if (dateInput) dateInput.valueAsDate = new Date();
+      currentSelectedImageBase64 = null;
+
+      const previewImg = document.getElementById('preview-img');
+      const uploadPrompt = document.getElementById('upload-prompt');
+      if (previewImg) previewImg.classList.add('hidden');
+      if (uploadPrompt) uploadPrompt.classList.remove('hidden');
+
+      document.getElementById('modal-add').classList.remove('hidden');
+    }
+
+    function closeAddModal() {
+      document.getElementById('modal-add').classList.add('hidden');
+    }
+
+    function setFilter(cat) {
+      currentFilter = cat;
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('bg-amber-600', 'text-white');
+        btn.classList.add('bg-white', 'text-slate-600');
+      });
+      const activeBtn = document.getElementById(`filter-${cat}`);
+      if (activeBtn) {
+        activeBtn.classList.remove('bg-white', 'text-slate-600');
+        activeBtn.classList.add('bg-amber-600', 'text-white');
+      }
+      renderGallery();
+    }
+
+    function showToast(msg, type = "success") {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toast-msg');
+      const toastIcon = document.getElementById('toast-icon');
+
+      if (!toast || !toastMsg || !toastIcon) return;
+
+      toastMsg.textContent = msg;
+      toastIcon.className = type === "error" 
+        ? "fa-solid fa-circle-exclamation text-red-400 text-base" 
+        : "fa-solid fa-circle-check text-emerald-400 text-base";
+
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 3000);
+    }
+  </script>
+</body>
+</html>
