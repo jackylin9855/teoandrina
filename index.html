@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Teo & Andrina 肥尾沙鼠畫廊 🐾</title>
+  <title>沙鼠飼養心得 & Teo & Andrina 觀察日誌 🐾</title>
   
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js" defer></script>
@@ -13,7 +13,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
 
   <style>
-    /* 強制全面使用思源黑體，絕不變成標楷體 */
+    /* 強制全面使用思源黑體 */
     *, *::before, *::after {
       font-family: "Noto Sans TC", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang TC", "Microsoft JhengHei", sans-serif !important;
     }
@@ -42,78 +42,164 @@
 <body class="bg-amber-50/50 min-h-screen text-slate-800 flex flex-col justify-between custom-scrollbar">
 
   <div>
-    <header class="bg-white/80 backdrop-blur-md border-b border-amber-100 sticky top-0 z-30 px-4 py-4 sm:px-8">
+    <!-- 頂部 Header -->
+    <header class="bg-white/90 backdrop-blur-md border-b border-amber-100 sticky top-0 z-30 px-4 py-4 sm:px-8">
       <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
         
-        <!-- 點擊此區域會觸發 goHome() 回到主頁並滑動到最頂端 -->
-        <div onclick="goHome()" class="cursor-pointer group flex items-center gap-3" title="回到主頁">
+        <div onclick="switchTab('gallery'); goHome();" class="cursor-pointer group flex items-center gap-3" title="回到主頁">
           <div class="w-10 h-10 rounded-full bg-amber-500 group-hover:bg-amber-600 text-white flex items-center justify-center font-bold text-xl shadow-md transition">
             🐾
           </div>
           <div>
-            <h1 class="text-xl sm:text-2xl font-bold text-slate-800 font-brand group-hover:text-amber-700 transition">Teo & Andrina</h1>
-            <p class="text-xs text-amber-700 font-medium group-hover:underline">戴家妤養的肥尾沙鼠觀察日誌 & 相簿</p>
+            <h1 class="text-xl sm:text-2xl font-bold text-slate-800 font-brand group-hover:text-amber-700 transition">沙鼠飼養心得</h1>
+            <p class="text-xs text-amber-700 font-medium group-hover:underline">戴家妤的肥尾沙鼠觀察日誌、德系規範與知識庫</p>
           </div>
         </div>
 
         <button onclick="openAddModal()" class="w-full sm:w-auto bg-amber-600 hover:bg-amber-700 active:scale-95 text-white font-bold px-5 py-2.5 rounded-full shadow-md transition flex items-center justify-center gap-2 text-sm">
           <i class="fa-solid fa-plus"></i>
-          <span>照片</span>
+          <span>新增照片紀錄</span>
         </button>
       </div>
+
+      <!-- 主選單 Tabs -->
+      <nav class="max-w-6xl mx-auto mt-4 pt-2 border-t border-slate-100 flex gap-2 overflow-x-auto text-xs sm:text-sm font-bold">
+        <button id="nav-gallery" onclick="switchTab('gallery')" class="nav-tab text-amber-700 bg-amber-100/80 px-4 py-2 rounded-xl transition flex items-center gap-1.5">
+          <i class="fa-solid fa-images"></i> 觀察相簿
+        </button>
+        <button id="nav-videos" onclick="switchTab('videos')" class="nav-tab text-slate-600 hover:bg-amber-50 px-4 py-2 rounded-xl transition flex items-center gap-1.5">
+          <i class="fa-brands fa-youtube text-red-500"></i> 影片教學與紀錄
+        </button>
+        <button id="nav-docs" onclick="switchTab('docs')" class="nav-tab text-slate-600 hover:bg-amber-50 px-4 py-2 rounded-xl transition flex items-center gap-1.5">
+          <i class="fa-solid fa-book-bookmark text-emerald-600"></i> 德系規範與法條
+        </button>
+        <button id="nav-knowledge" onclick="switchTab('knowledge')" class="nav-tab text-slate-600 hover:bg-amber-50 px-4 py-2 rounded-xl transition flex items-center gap-1.5">
+          <i class="fa-solid fa-lightbulb text-amber-500"></i> 飼養知識庫
+        </button>
+      </nav>
     </header>
 
     <main class="max-w-6xl mx-auto px-4 py-6 sm:py-8 space-y-6">
-      
-      <section class="grid grid-cols-3 gap-3 sm:gap-6">
-        <div class="bg-white p-3 sm:p-4 rounded-2xl border border-amber-100 shadow-sm flex flex-col items-center sm:items-start">
-          <span class="text-xs text-slate-400 font-medium">總相片筆數</span>
-          <span id="stat-total-count" class="text-lg sm:text-2xl font-bold text-amber-900 mt-1">0 篇</span>
+
+      <!-- ================= 頁籤 1：觀察相簿 ================= -->
+      <section id="tab-content-gallery" class="tab-page space-y-6">
+        <!-- 數據統計區塊 -->
+        <div class="grid grid-cols-3 gap-3 sm:gap-6">
+          <div class="bg-white p-3 sm:p-4 rounded-2xl border border-amber-100 shadow-sm flex flex-col items-center sm:items-start">
+            <span class="text-xs text-slate-400 font-medium">總相片筆數</span>
+            <span id="stat-total-count" class="text-lg sm:text-2xl font-bold text-amber-900 mt-1">0 篇</span>
+          </div>
+          <div class="bg-blue-50/60 p-3 sm:p-4 rounded-2xl border border-blue-100 shadow-sm flex flex-col items-center sm:items-start">
+            <span class="text-xs text-blue-600 font-medium flex items-center gap-1">
+              <i class="fa-solid fa-mars text-blue-500"></i> Teo 體重 (二代鼠)
+            </span>
+            <span id="stat-teo-latest" class="text-lg sm:text-2xl font-bold text-blue-900 mt-1">最新: -- g</span>
+          </div>
+          <div class="bg-indigo-50/60 p-3 sm:p-4 rounded-2xl border border-indigo-100 shadow-sm flex flex-col items-center sm:items-start">
+            <span class="text-xs text-indigo-600 font-medium flex items-center gap-1">
+              <i class="fa-solid fa-mars text-indigo-500"></i> Andrina 體重 (一代鼠)
+            </span>
+            <span id="stat-andrina-latest" class="text-lg sm:text-2xl font-bold text-indigo-900 mt-1">最新: -- g</span>
+          </div>
         </div>
-        <div class="bg-blue-50/60 p-3 sm:p-4 rounded-2xl border border-blue-100 shadow-sm flex flex-col items-center sm:items-start">
-          <span class="text-xs text-blue-600 font-medium flex items-center gap-1">
-            <i class="fa-solid fa-mars text-blue-500"></i> Teo 體重 (二代鼠)
-          </span>
-          <span id="stat-teo-latest" class="text-lg sm:text-2xl font-bold text-blue-900 mt-1">最新: -- g</span>
+
+        <!-- 篩選按鈕區 -->
+        <div class="flex justify-center sm:justify-start gap-2 border-b border-amber-200/60 pb-3 overflow-x-auto">
+          <button id="filter-all" onclick="setFilter('all')" class="filter-btn bg-amber-600 text-white px-5 py-1.5 rounded-full text-xs sm:text-sm font-bold shadow-sm transition">
+            全部相片
+          </button>
+          <button id="filter-Teo" onclick="setFilter('Teo')" class="filter-btn bg-white text-slate-600 hover:bg-blue-50 px-5 py-1.5 rounded-full text-xs sm:text-sm font-bold shadow-sm transition border border-slate-200">
+            ♂ Teo (二代鼠)
+          </button>
+          <button id="filter-Andrina" onclick="setFilter('Andrina')" class="filter-btn bg-white text-slate-600 hover:bg-indigo-50 px-5 py-1.5 rounded-full text-xs sm:text-sm font-bold shadow-sm transition border border-slate-200">
+            ♂ Andrina (一代鼠)
+          </button>
         </div>
-        <div class="bg-indigo-50/60 p-3 sm:p-4 rounded-2xl border border-indigo-100 shadow-sm flex flex-col items-center sm:items-start">
-          <span class="text-xs text-indigo-600 font-medium flex items-center gap-1">
-            <i class="fa-solid fa-mars text-indigo-500"></i> Andrina 體重 (一代鼠)
-          </span>
-          <span id="stat-andrina-latest" class="text-lg sm:text-2xl font-bold text-indigo-900 mt-1">最新: -- g</span>
+
+        <!-- 照片網格區 -->
+        <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6"></div>
+
+        <!-- 空白提示 -->
+        <div id="empty-state" class="hidden text-center py-16 bg-white/60 rounded-3xl border border-dashed border-amber-200 p-8 my-8">
+          <div class="text-5xl mb-4">🐹🐾</div>
+          <h3 class="text-lg font-bold text-amber-900 mb-1">還沒有照片紀錄喔！</h3>
+          <p class="text-xs sm:text-sm text-slate-500 mb-6">點擊右上角按鈕，加入 Teo 與 Andrina 第一張生活照吧！</p>
+          <button onclick="openAddModal()" class="inline-flex items-center gap-2 bg-amber-600 text-white font-bold px-6 py-2.5 rounded-full shadow hover:bg-amber-700 transition text-sm">
+            <i class="fa-solid fa-plus"></i>
+            <span>+ 照片</span>
+          </button>
         </div>
       </section>
 
-      <div class="flex justify-center sm:justify-start gap-2 border-b border-amber-200/60 pb-3 overflow-x-auto">
-        <button id="filter-all" onclick="setFilter('all')" class="filter-btn bg-amber-600 text-white px-5 py-1.5 rounded-full text-xs sm:text-sm font-bold shadow-sm transition">
-          全部相片
-        </button>
-        <button id="filter-Teo" onclick="setFilter('Teo')" class="filter-btn bg-white text-slate-600 hover:bg-blue-50 px-5 py-1.5 rounded-full text-xs sm:text-sm font-bold shadow-sm transition border border-slate-200">
-          ♂ Teo (二代鼠)
-        </button>
-        <button id="filter-Andrina" onclick="setFilter('Andrina')" class="filter-btn bg-white text-slate-600 hover:bg-indigo-50 px-5 py-1.5 rounded-full text-xs sm:text-sm font-bold shadow-sm transition border border-slate-200">
-          ♂ Andrina (一代鼠)
-        </button>
-      </div>
+      <!-- ================= 頁籤 2：YouTube 影片教學 ================= -->
+      <section id="tab-content-videos" class="tab-page hidden space-y-6">
+        <div class="bg-amber-100/50 p-4 sm:p-6 rounded-2xl border border-amber-200/60">
+          <h2 class="text-lg sm:text-xl font-bold text-amber-900 flex items-center gap-2">
+            <i class="fa-brands fa-youtube text-red-500"></i> 沙鼠影片觀察與教學
+          </h2>
+          <p class="text-xs sm:text-sm text-amber-800 mt-1">精選優質沙鼠飼養影音，包含日常互動、籠舍佈置與專業行為分析。</p>
+        </div>
 
-      <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-        <!-- JS 會動態將卡片渲染至此 -->
-      </div>
+        <!-- 影片網格區 (由 JavaScript 動態渲染) -->
+        <div id="video-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
+      </section>
 
-      <!-- 空白狀態提示 -->
-      <div id="empty-state" class="hidden text-center py-16 bg-white/60 rounded-3xl border border-dashed border-amber-200 p-8 my-8">
-        <div class="text-5xl mb-4">🐹🐾</div>
-        <h3 class="text-lg font-bold text-amber-900 mb-1">還沒有照片紀錄喔！</h3>
-        <p class="text-xs sm:text-sm text-slate-500 mb-6">點擊右上角按鈕，加入 Teo 與 Andrina 第一張生活照吧！</p>
-        <button onclick="openAddModal()" class="inline-flex items-center gap-2 bg-amber-600 text-white font-bold px-6 py-2.5 rounded-full shadow hover:bg-amber-700 transition text-sm">
-          <i class="fa-solid fa-plus"></i>
-          <span>+ 照片</span>
-        </button>
-      </div>
+      <!-- ================= 頁籤 3：德系規範與法規 ================= -->
+      <section id="tab-content-docs" class="tab-page hidden space-y-6">
+        <div class="bg-emerald-50 p-4 sm:p-6 rounded-2xl border border-emerald-200/60">
+          <h2 class="text-lg sm:text-xl font-bold text-emerald-900 flex items-center gap-2">
+            <i class="fa-solid fa-scale-balanced text-emerald-600"></i> 德國沙鼠動保法規與飼養標準
+          </h2>
+          <p class="text-xs sm:text-sm text-emerald-800 mt-1">德國對於小型哺乳類動保規範極為嚴格，此處收錄德系規範、最小居住面積規定與福利指南。</p>
+        </div>
+
+        <!-- 德系規範文件清單 (由 JavaScript 動態渲染) -->
+        <div id="docs-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+      </section>
+
+      <!-- ================= 頁籤 4：飼養知識庫 ================= -->
+      <section id="tab-content-knowledge" class="tab-page hidden space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          <div class="bg-white p-6 rounded-3xl border border-amber-100 shadow-sm space-y-3">
+            <div class="w-10 h-10 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-lg">🥣</div>
+            <h3 class="text-base font-bold text-slate-800">肥尾沙鼠飲食指南</h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              肥尾沙鼠（Duprasi Gerbil）為偏肉食/昆蟲食性的沙鼠。日常主食應以優質雜食/昆蟲大牌主糧為主，搭配適量麵包蟲、麥皮蟲、蟋蟀補充動物性蛋白質。
+            </p>
+          </div>
+
+          <div class="bg-white p-6 rounded-3xl border border-amber-100 shadow-sm space-y-3">
+            <div class="w-10 h-10 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-lg">🏡</div>
+            <h3 class="text-base font-bold text-slate-800">籠舍與墊材厚度 (德系標準)</h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              沙鼠極度熱愛挖掘！德系標準建議墊材厚度至少需達 **15 - 20 公分** 以上，並提供高純度火山灰砂浴，防止尾巴與油脂分泌過度旺盛。
+            </p>
+          </div>
+
+          <div class="bg-white p-6 rounded-3xl border border-amber-100 shadow-sm space-y-3">
+            <div class="w-10 h-10 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-lg">🩺</div>
+            <h3 class="text-base font-bold text-slate-800">尾巴健康觀察 (Fat Tail)</h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              肥尾沙鼠的尾巴是用來儲存脂肪與水分的器官。健康狀態良好的沙鼠，尾巴應呈現圓潤、光滑充實狀；若尾巴乾扁或變細，需留意食慾或腸道健康問題。
+            </p>
+          </div>
+
+          <div class="bg-white p-6 rounded-3xl border border-amber-100 shadow-sm space-y-3">
+            <div class="w-10 h-10 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-lg">🌡️</div>
+            <h3 class="text-base font-bold text-slate-800">溫濕度控制</h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              原生於北非沙漠地區，適合溫度約在 **22°C - 26°C**，濕度建議維持在 **40% - 50%**。過度潮濕容易引發皮膚病與毛發黏膩。
+            </p>
+          </div>
+
+        </div>
+      </section>
 
     </main>
   </div>
 
+  <!-- Modal：新增觀察照片 -->
   <div id="modal-add" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
     <div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
       
@@ -125,7 +211,6 @@
       </div>
 
       <form id="record-form" onsubmit="handleSaveRecord(event)" class="p-6 overflow-y-auto space-y-4 text-xs sm:text-sm custom-scrollbar">
-        
         <!-- 選擇主角 -->
         <div>
           <label class="block font-bold text-slate-700 mb-2">相片主角 <span class="text-red-500">*</span></label>
@@ -184,7 +269,7 @@
         <!-- 筆記觀察 -->
         <div>
           <label class="block font-bold text-slate-700 mb-1">日常觀察筆記</label>
-          <textarea id="input-notes" rows="3" placeholder="繳交500字心得記錄今天的精神狀態、食慾、有沒有呼吸問題" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-slate-700 focus:outline-none focus:border-amber-500 resize-none"></textarea>
+          <textarea id="input-notes" rows="3" placeholder="記錄今天的精神狀態、食慾、有沒有呼吸問題..." class="w-full border border-slate-200 rounded-xl px-3 py-2 text-slate-700 focus:outline-none focus:border-amber-500 resize-none"></textarea>
         </div>
 
         <div class="pt-2">
@@ -197,9 +282,9 @@
     </div>
   </div>
 
+  <!-- Lightbox：照片檢視 -->
   <div id="modal-lightbox" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="closeLightbox()">
     <div class="bg-white w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]" onclick="event.stopPropagation()">
-      
       <div class="relative bg-slate-950 flex items-center justify-center max-h-[55vh] overflow-hidden">
         <img id="lb-img" class="max-h-[55vh] w-auto max-w-full object-contain" src="" alt="Detail">
         <button onclick="closeLightbox()" class="absolute top-3 right-3 bg-black/50 hover:bg-black/80 text-white w-9 h-9 rounded-full flex items-center justify-center text-sm backdrop-blur-md transition">✕</button>
@@ -237,10 +322,18 @@
           </p>
         </div>
       </div>
-
     </div>
   </div>
 
+  <!-- Modal：YouTube 影片播放視窗 -->
+  <div id="modal-video" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="closeVideoModal()">
+    <div class="bg-black w-full max-w-3xl rounded-3xl overflow-hidden shadow-2xl relative aspect-video" onclick="event.stopPropagation()">
+      <button onclick="closeVideoModal()" class="absolute top-3 right-3 bg-white/20 hover:bg-white/40 text-white w-9 h-9 rounded-full flex items-center justify-center text-sm z-10 transition">✕</button>
+      <iframe id="youtube-player" class="w-full h-full" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <!-- Toast 訊息提示條 -->
   <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
     <div class="bg-slate-900/90 text-white px-4 py-3 rounded-2xl shadow-xl flex items-center gap-3 backdrop-blur-md text-xs sm:text-sm">
       <i id="toast-icon" class="fa-solid fa-circle-check text-emerald-400"></i>
@@ -249,10 +342,16 @@
   </div>
 
   <footer class="py-6 text-center text-xs text-slate-400 border-t border-amber-100 mt-12">
-    <p>Teo & Andrina 肥尾沙鼠成長觀察日記 🐾</p>
+    <p>Teo & Andrina 肥尾沙鼠成長觀察日記 & 德系知識庫 🐾</p>
   </footer>
 
+  <!-- JavaScript 邏輯控制區 -->
   <script>
+    /* ====================================================================
+       【後端/資料庫區域】這裡是你未來「舉一反三」新增內容的地方！
+       ==================================================================== */
+
+    // 1. 預設沙鼠照片紀錄 (可依樣畫葫蘆，複製 { ... } 新增照片)
     const SAMPLE_RECORDS = [
       {
         id: 'rec-1',
@@ -276,16 +375,84 @@
       }
     ];
 
+    // 2. YouTube 影片資料庫 (在 youtubeId 填入 YouTube 網址 v= 後面的代碼)
+    const VIDEO_DATABASE = [
+      {
+        id: 'vid-1',
+        title: '肥尾沙鼠 (Duprasi Gerbil) 飼養入門與基礎照顧',
+        category: '飼養教學',
+        youtubeId: 'dQw4w9WgXcQ', // 請替換成真正的 YouTube 影片 ID
+        coverImage: 'https://images.unsplash.com/photo-1548767797-d8c844163c4c?w=600&auto=format&fit=crop&q=80',
+        desc: '介紹肥尾沙鼠的原生棲地環境、基礎飲食以及新手飼養注意事項。'
+      },
+      {
+        id: 'vid-2',
+        title: '理想沙鼠籠舍開箱：德系深墊材厚挖展示',
+        category: '籠舍佈置',
+        youtubeId: 'dQw4w9WgXcQ', // 請替換成真正的 YouTube 影片 ID
+        coverImage: 'https://images.unsplash.com/photo-1425082661705-1834bfd09dca?w=600&auto=format&fit=crop&q=80',
+        desc: '示範如何設定 20cm 以上的深度墊材，打造符合沙鼠天然挖掘習性的家。'
+      }
+    ];
+
+    // 3. 德國動保法規與 PDF 條文資料庫
+    const DOCUMENT_DATABASE = [
+      {
+        id: 'doc-1',
+        title: '德國動物保護法 (TierSchG) - 鼠類飼養標準',
+        tag: '德系動保法規',
+        date: '2024 更新版',
+        summary: '德國法律規定所有脊椎動物飼養者必須提供符合其生物學習性的環境。對於沙鼠類，規定最小飼養面積與禁止使用過小的滾輪。',
+        pdfUrl: '#', // 填入你的 PDF 檔案路徑，例如：'./docs/german_law_gerbil.pdf'
+        highlights: ['居住面積不得小於 0.5 平方公尺', '滾輪直徑必須 >= 28cm', '強制要求提供砂浴設施']
+      },
+      {
+        id: 'doc-2',
+        title: 'TVT 德國獸醫協會小型哺乳動物福利指南 (Gerbil篇)',
+        tag: '獸醫協會指南',
+        date: '2023 官方文獻',
+        summary: '由德國獸醫醫學協會 (TVT) 頒布的沙鼠照顧指南，詳細介紹肥尾沙鼠與蒙古沙鼠的社會行為、疾病預防與飲食比例。',
+        pdfUrl: '#', // 填入 PDF 檔案路徑
+        highlights: ['動物性蛋白需求比例', '預防尾巴油脂腺炎方法', '墊材材質與呼吸道健康']
+      }
+    ];
+
+
+    /* ====================================================================
+       頁面邏輯與動態渲染
+       ==================================================================== */
+
     let records = [];
     let currentFilter = 'all';
     let currentSelectedImageBase64 = null;
 
     window.addEventListener('DOMContentLoaded', () => {
       loadRecords();
+      renderVideos();
+      renderDocs();
       const dateInput = document.getElementById('input-date');
       if (dateInput) dateInput.valueAsDate = new Date();
     });
 
+    // 頁籤切換邏輯
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab-page').forEach(page => page.classList.add('hidden'));
+      document.querySelectorAll('.nav-tab').forEach(tab => {
+        tab.classList.remove('text-amber-700', 'bg-amber-100/80');
+        tab.classList.add('text-slate-600');
+      });
+
+      const activePage = document.getElementById(`tab-content-${tabName}`);
+      const activeNav = document.getElementById(`nav-${tabName}`);
+
+      if (activePage) activePage.classList.remove('hidden');
+      if (activeNav) {
+        activeNav.classList.remove('text-slate-600');
+        activeNav.classList.add('text-amber-700', 'bg-amber-100/80');
+      }
+    }
+
+    // 讀取相片紀錄
     function loadRecords() {
       try {
         const saved = localStorage.getItem('gerbil_records_v8');
@@ -311,12 +478,12 @@
       }
     }
 
-    // 回到主頁函式
     function goHome() {
       setFilter('all');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    // 渲染相片畫廊
     function renderGallery() {
       const grid = document.getElementById('gallery-grid');
       const emptyState = document.getElementById('empty-state');
@@ -367,6 +534,88 @@
       }
     }
 
+    // 渲染 YouTube 影片卡片
+    function renderVideos() {
+      const container = document.getElementById('video-grid');
+      if (!container) return;
+
+      container.innerHTML = VIDEO_DATABASE.map(vid => `
+        <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-amber-100 flex flex-col justify-between group hover:shadow-md transition">
+          <div>
+            <div class="relative aspect-video bg-slate-900 cursor-pointer overflow-hidden" onclick="playVideo('${vid.youtubeId}')">
+              <img src="${vid.coverImage}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-90" alt="${vid.title}">
+              <div class="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:bg-black/10 transition">
+                <div class="w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center text-xl shadow-lg group-hover:scale-110 transition">
+                  <i class="fa-solid fa-play ml-1"></i>
+                </div>
+              </div>
+              <span class="absolute top-3 left-3 bg-black/60 text-white text-[10px] font-bold px-2 py-0.5 rounded-full backdrop-blur-sm">
+                ${vid.category}
+              </span>
+            </div>
+            <div class="p-4 space-y-2">
+              <h3 class="font-bold text-slate-800 text-sm sm:text-base leading-snug">${vid.title}</h3>
+              <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed">${vid.desc}</p>
+            </div>
+          </div>
+          <div class="px-4 pb-4">
+            <button onclick="playVideo('${vid.youtubeId}')" class="w-full py-2 bg-amber-50 hover:bg-amber-100 text-amber-800 text-xs font-bold rounded-xl transition flex items-center justify-center gap-1.5">
+              <i class="fa-brands fa-youtube text-red-500"></i> 立即觀看影片
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // 渲染德系規範文件
+    function renderDocs() {
+      const container = document.getElementById('docs-grid');
+      if (!container) return;
+
+      container.innerHTML = DOCUMENT_DATABASE.map(doc => `
+        <div class="bg-white p-6 rounded-3xl border border-emerald-100 shadow-sm flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="flex justify-between items-start gap-2">
+              <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2.5 py-1 rounded-full">
+                ${doc.tag}
+              </span>
+              <span class="text-xs text-slate-400 font-medium">${doc.date}</span>
+            </div>
+            <h3 class="text-base font-bold text-slate-800 leading-snug">${doc.title}</h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">${doc.summary}</p>
+            
+            <div class="bg-slate-50 p-3 rounded-2xl border border-slate-100 space-y-1.5">
+              <span class="text-[11px] font-bold text-slate-400 block">重點摘錄：</span>
+              <ul class="list-disc list-inside text-xs text-slate-700 space-y-1">
+                ${doc.highlights.map(h => `<li>${h}</li>`).join('')}
+              </ul>
+            </div>
+          </div>
+
+          <a href="${doc.pdfUrl}" target="_blank" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow transition text-center flex items-center justify-center gap-2">
+            <i class="fa-solid fa-file-pdf"></i>
+            <span>查看/下載原文 PDF</span>
+          </a>
+        </div>
+      `).join('');
+    }
+
+    // 影片彈窗控制
+    function playVideo(youtubeId) {
+      const player = document.getElementById('youtube-player');
+      if (player) {
+        player.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1`;
+      }
+      document.getElementById('modal-video').classList.remove('hidden');
+    }
+
+    function closeVideoModal() {
+      const player = document.getElementById('youtube-player');
+      if (player) player.src = '';
+      document.getElementById('modal-video').classList.add('hidden');
+    }
+
+    // 數據更新
     function updateStats() {
       const totalElem = document.getElementById('stat-total-count');
       const teoElem = document.getElementById('stat-teo-latest');
@@ -488,7 +737,6 @@
       document.getElementById('modal-lightbox').classList.add('hidden');
     }
 
-    // 刪除提示（是/否 confirm 視窗）
     function deleteRecord(id) {
       const isConfirmed = confirm("確定要刪除這篇沙鼠照片紀錄嗎？🐾\n（刪除後無法復原喔）");
       if (!isConfirmed) return;
