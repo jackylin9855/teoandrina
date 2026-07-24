@@ -52,7 +52,7 @@
           </div>
           <div>
             <h1 class="text-xl sm:text-2xl font-bold text-slate-800 font-brand group-hover:text-amber-700 transition">沙鼠飼養心得</h1>
-            <p class="text-xs text-amber-700 font-medium group-hover:underline">戴家妤的肥尾沙鼠觀察日誌、德系規範與知識庫</p>
+            <p class="text-xs text-amber-700 font-medium group-hover:underline">戴家妤的肥尾沙鼠觀察日誌分享指南</p>
           </div>
         </div>
 
@@ -68,10 +68,10 @@
           <i class="fa-solid fa-images"></i> 觀察相簿
         </button>
         <button id="nav-videos" onclick="switchTab('videos')" class="nav-tab text-slate-600 hover:bg-amber-50 px-4 py-2 rounded-xl transition flex items-center gap-1.5">
-          <i class="fa-brands fa-youtube text-red-500"></i> 影片教學與紀錄
+          <i class="fa-brands fa-youtube text-red-500"></i> 沙鼠飼養影片
         </button>
         <button id="nav-docs" onclick="switchTab('docs')" class="nav-tab text-slate-600 hover:bg-amber-50 px-4 py-2 rounded-xl transition flex items-center gap-1.5">
-          <i class="fa-solid fa-book-bookmark text-emerald-600"></i> 德系規範與法條
+          <i class="fa-solid fa-book-bookmark text-emerald-600"></i> 養鼠規範跟法條
         </button>
         <button id="nav-knowledge" onclick="switchTab('knowledge')" class="nav-tab text-slate-600 hover:bg-amber-50 px-4 py-2 rounded-xl transition flex items-center gap-1.5">
           <i class="fa-solid fa-lightbulb text-amber-500"></i> 飼養知識庫
@@ -135,9 +135,9 @@
       <section id="tab-content-videos" class="tab-page hidden space-y-6">
         <div class="bg-amber-100/50 p-4 sm:p-6 rounded-2xl border border-amber-200/60">
           <h2 class="text-lg sm:text-xl font-bold text-amber-900 flex items-center gap-2">
-            <i class="fa-brands fa-youtube text-red-500"></i> 沙鼠影片觀察與教學
+            <i class="fa-brands fa-youtube text-red-500"></i> 沙鼠影片
           </h2>
-          <p class="text-xs sm:text-sm text-amber-800 mt-1">精選優質沙鼠飼養影音，包含日常互動、籠舍佈置與專業行為分析。</p>
+          <p class="text-xs sm:text-sm text-amber-800 mt-1">你家的鼠鼠入厝前必看的知識影片。</p>
         </div>
 
         <!-- 影片網格區 (由 JavaScript 動態渲染) -->
@@ -148,9 +148,9 @@
       <section id="tab-content-docs" class="tab-page hidden space-y-6">
         <div class="bg-emerald-50 p-4 sm:p-6 rounded-2xl border border-emerald-200/60">
           <h2 class="text-lg sm:text-xl font-bold text-emerald-900 flex items-center gap-2">
-            <i class="fa-solid fa-scale-balanced text-emerald-600"></i> 德國沙鼠動保法規與飼養標準
+            <i class="fa-solid fa-scale-balanced text-emerald-600"></i> 飼養標準跟規範
           </h2>
-          <p class="text-xs sm:text-sm text-emerald-800 mt-1">德國對於小型哺乳類動保規範極為嚴格，此處收錄德系規範、最小居住面積規定與福利指南。</p>
+          <p class="text-xs sm:text-sm text-emerald-800 mt-1">各國對小型哺乳類動保規範極為嚴格，裡面有各種小老鼠福利指南。</p>
         </div>
 
         <!-- 德系規範文件清單 (由 JavaScript 動態渲染) -->
@@ -171,9 +171,9 @@
 
           <div class="bg-white p-6 rounded-3xl border border-amber-100 shadow-sm space-y-3">
             <div class="w-10 h-10 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-lg">🏡</div>
-            <h3 class="text-base font-bold text-slate-800">籠舍與墊材厚度 (德系標準)</h3>
+            <h3 class="text-base font-bold text-slate-800">籠舍與墊材厚度 </h3>
             <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
-              沙鼠極度熱愛挖掘！德系標準建議墊材厚度至少需達 **15 - 20 公分** 以上，並提供高純度火山灰砂浴，防止尾巴與油脂分泌過度旺盛。
+              沙鼠極度熱愛挖掘！標準建議墊材厚度至少需達15 - 20 公分以上，視老鼠狀態給予浴砂，防止尾巴與油脂分泌過度旺盛，不過有些鼠鼠有過敏狀態可能就不適合。
             </p>
           </div>
 
@@ -342,7 +342,7 @@
   </div>
 
   <footer class="py-6 text-center text-xs text-slate-400 border-t border-amber-100 mt-12">
-    <p>Teo & Andrina 肥尾沙鼠成長觀察日記 & 德系知識庫 🐾</p>
+    <p>Teo & Andrina 戴家妤的肥尾沙鼠觀察日誌分享指南 🐾</p>
   </footer>
 
   <!-- JavaScript 邏輯控制區 -->
@@ -379,17 +379,18 @@
     const VIDEO_DATABASE = [
       {
         id: 'vid-1',
-        title: '肥尾沙鼠 (Duprasi Gerbil) 飼養入門與基礎照顧',
+        title: '
+【從零開始養】沙鼠(通心粉、長爪沙鼠)!戰鬥時居然會唱歌打鼓?尾巴自帶觸控筆?科養沙鼠籠子超豪華?【許伯簡芝】肥尾沙鼠!',
         category: '飼養教學',
-        youtubeId: 'dQw4w9WgXcQ', // 請替換成真正的 YouTube 影片 ID
+        youtubeId: 'https://www.youtube.com/watch?v=KOSCkVTwKZc', // 請替換成真正的 YouTube 影片 ID
         coverImage: 'https://images.unsplash.com/photo-1548767797-d8c844163c4c?w=600&auto=format&fit=crop&q=80',
         desc: '介紹肥尾沙鼠的原生棲地環境、基礎飲食以及新手飼養注意事項。'
       },
       {
         id: 'vid-2',
-        title: '理想沙鼠籠舍開箱：德系深墊材厚挖展示',
+        title: '危險鼠用品：好心幹壞事？你正在「暗殺」你的倉鼠嗎？盤點那些害鼠不淺的地雷用品！｜愛鼠協會【不踩雷養鼠攻略】',
         category: '籠舍佈置',
-        youtubeId: 'dQw4w9WgXcQ', // 請替換成真正的 YouTube 影片 ID
+        youtubeId: https://www.youtube.com/watch?v=74KH6d_ZIq8', // 請替換成真正的 YouTube 影片 ID
         coverImage: 'https://images.unsplash.com/photo-1425082661705-1834bfd09dca?w=600&auto=format&fit=crop&q=80',
         desc: '示範如何設定 20cm 以上的深度墊材，打造符合沙鼠天然挖掘習性的家。'
       }
